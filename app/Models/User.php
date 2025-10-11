@@ -45,4 +45,11 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    // KAPCSOLAT: Egy user-nek sok day_entry-je lehet
+    public function dayEntries()
+    {
+        return $this->hasMany(DayEntry::class);
+    }
+    
 }
