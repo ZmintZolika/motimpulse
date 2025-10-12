@@ -5,6 +5,12 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\DayEntryController;
 use App\Http\Controllers\Api\MotivationalQuoteController;
 
+/*
+|--------------------------------------------------------------------------
+| API Routes - Authentication
+|--------------------------------------------------------------------------
+*/
+
 // Nyilvános útvonalak (nem kell bejelentkezés)
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
@@ -15,8 +21,12 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', [AuthController::class, 'user']);
 });
 
+/*
+|--------------------------------------------------------------------------
+| API Routes - Day Entries
+|--------------------------------------------------------------------------
+*/
 
-// Day Entries
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/day-entries', [DayEntryController::class, 'index']);
     Route::post('/day-entries', [DayEntryController::class, 'store']);
@@ -25,8 +35,12 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/day-entries/{dayEntry}', [DayEntryController::class, 'destroy']);
 });
 
-// Motivational Quotes
-Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/quotes', [MotivationalQuoteController::class, 'index']);
-    Route::get('/quotes/random', [MotivationalQuoteController::class, 'random']);
-});
+/*
+|--------------------------------------------------------------------------
+| API Routes - Motivational Quotes
+|--------------------------------------------------------------------------
+*/
+
+// NYILVÁNOS! Auth middleware NÉLKÜL!
+Route::get('/quotes', [MotivationalQuoteController::class, 'index']);
+Route::get('/quotes/random', [MotivationalQuoteController::class, 'random']);
