@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\DayEntryController;
+use App\Http\Controllers\Api\MotivationalQuoteController;
 
 // Nyilvános útvonalak (nem kell bejelentkezés)
 Route::post('/register', [AuthController::class, 'register']);
@@ -22,4 +23,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/day-entries/{dayEntry}', [DayEntryController::class, 'show']);
     Route::put('/day-entries/{dayEntry}', [DayEntryController::class, 'update']);
     Route::delete('/day-entries/{dayEntry}', [DayEntryController::class, 'destroy']);
+});
+
+// Motivational Quotes
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/quotes', [MotivationalQuoteController::class, 'index']);
+    Route::get('/quotes/random', [MotivationalQuoteController::class, 'random']);
 });
