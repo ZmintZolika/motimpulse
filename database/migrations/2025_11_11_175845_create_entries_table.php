@@ -25,6 +25,11 @@ return new class extends Migration
         $table->timestamp('created_at')->nullable();
         $table->timestamp('updated_at')->nullable();
         $table->timestamp('deleted_at')->nullable();
+
+        $table->foreign('user_id')->references('user_id')->on('users')->onDelete('cascade');
+        $table->foreign('quote_id')->references('quote_id')->on('quotes')->onDelete('set null');
+
+
         });
     }
 
