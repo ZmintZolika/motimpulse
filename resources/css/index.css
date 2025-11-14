@@ -1,0 +1,51 @@
+body {
+  background: linear-gradient(to right, #f8fafc, #e2e8f0);
+  font-family: 'Segoe UI', sans-serif;
+}
+.header-logo {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+}
+.header-logo img {
+  height: 250px;
+}
+.form-card {
+  max-width: 600px;
+  margin: 100px auto 60px auto;
+  padding: 30px;
+  border-radius: 12px;
+  background-color: #ffffff;
+  box-shadow: 0 0 20px rgba(0,0,0,0.05);
+}
+.greeting {
+  font-size: 24px;
+  font-weight: bold;
+  color: #3b82f6;
+  margin-bottom: 20px;
+  text-align: center;
+}
+.divider {
+  border-top: 2px dashed #cbd5e1;
+  margin: 20px 0;
+}
+.form-label {
+  font-weight: 500;
+  color: #334155;
+}
+.btn-submit {
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+}
+.btn-submit:hover {
+  background-color: #2563eb;
+}
+.btn-login {
+  margin-top: 20px;
+  background-color: #64748b;
+  color: white;
+}
+.btn-login:hover {
+  background-color: #475569;
+}
