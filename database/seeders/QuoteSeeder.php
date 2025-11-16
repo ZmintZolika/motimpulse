@@ -17,6 +17,7 @@ class MotivationalQuoteSeeder extends Seeder
     ['quote_category' => 'Lehangolt', 'quote_text' => 'Kis lépések is előrehaladást jelentenek.', 'author' => 'Ismeretlen'],
     ['quote_category' => 'Lehangolt', 'quote_text' => 'A változás nem holnap kezdődik, hanem ma.', 'author' => 'Ismeretlen'],
     ['quote_category' => 'Lehangolt', 'quote_text' => 'Az út ezer mérföldre is egyetlen lépéssel kezdődik.', 'author' => 'Lao Ce'],
+    ['quote_category' => 'Lehangolt', 'quote_text' => 'A világ mindig változik, és ha az ember fenn akar maradni, akkor bele kell menni a táncba', 'author' => 'Terry Pratchett'],
     
 
     // Kiegyensúlyozott (semleges hangulat)
