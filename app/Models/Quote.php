@@ -16,4 +16,9 @@ class Quote extends Model
     'quote_text',
     'author'    
     ];
+    
+    public function entries()
+{
+    return $this->hasMany(Entry::class, 'quote_id', 'quote_id');
+}
 }
