@@ -28,15 +28,15 @@ class EntryController extends Controller
         ], 200);
     }
 
-    /**
+        /**
      * Új entry létrehozása
      * POST /api/entries
      */
     public function store(Request $request)
     {
-        // Validáció - PONTOS ENUM értékek az adatbázisból
+        // Validáció - mood NULLABLE
         $validated = $request->validate([
-            'mood' => ['required', Rule::in(['Lehangolt', 'Kiegyensúlyozott', 'Vidám'])],
+            'mood' => ['nullable', Rule::in(['Lehangolt', 'Kiegyensúlyozott', 'Vidám'])],
             'weather' => ['required', Rule::in(['Napos', 'Felhős', 'Esős', 'Szeles', 'Havas'])],
             'sleep_quality' => ['required', Rule::in(['Nagyon rossz', 'Rossz', 'Közepes', 'Jó', 'Kiváló'])],
             'activities' => ['required', Rule::in(['Munka', 'Tanulás', 'Pihenés', 'Sport', 'Szórakozás', 'Egyéb'])],
@@ -44,16 +44,22 @@ class EntryController extends Controller
             'note' => ['nullable', 'string', 'max:1000'],
         ]);
 
-        // Random quote lekérése a mood szerint
-        $quote = Quote::where('mood', $validated['mood'])
-            ->inRandomOrder()
-            ->first();
+        // Quote generálás
+        if (isset($validated['mood'])) {
+            // Ha mood megadva → mood szerint random quote
+            $quote = Quote::where('mood', $validated['mood'])
+                ->inRandomOrder()
+                ->first();
+        } else {
+            // Ha mood NINCS megadva → random quote az egész táblából
+            $quote = Quote::inRandomOrder()->first();
+        }
 
         // Entry létrehozása
         $entry = Entry::create([
             'user_id' => $request->user()->user_id,
             'quote_id' => $quote ? $quote->quote_id : null,
-            'mood' => $validated['mood'],
+            'mood' => $validated['mood'] ?? null,
             'weather' => $validated['weather'],
             'sleep_quality' => $validated['sleep_quality'],
             'activities' => $validated['activities'],
@@ -62,7 +68,6 @@ class EntryController extends Controller
             'is_deleted' => false,
         ]);
 
-        // Entry betöltése quote-tal
         $entry->load('quote');
 
         return response()->json([
@@ -70,6 +75,7 @@ class EntryController extends Controller
             'entry' => $entry,
         ], 201);
     }
+
 
     /**
      * Egy entry lekérése
@@ -115,7 +121,7 @@ class EntryController extends Controller
 
         // Validáció - PONTOS ENUM értékek
         $validated = $request->validate([
-            'mood' => ['sometimes', Rule::in(['Lehangolt', 'Kiegyensúlyozott', 'Vidám'])],
+            'mood' => ['nullable', Rule::in(['Lehangolt', 'Kiegyensúlyozott', 'Vidám'])],
             'weather' => ['sometimes', Rule::in(['Napos', 'Felhős', 'Esős', 'Szeles', 'Havas'])],
             'sleep_quality' => ['sometimes', Rule::in(['Nagyon rossz', 'Rossz', 'Közepes', 'Jó', 'Kiváló'])],
             'activities' => ['sometimes', Rule::in(['Munka', 'Tanulás', 'Pihenés', 'Sport', 'Szórakozás', 'Egyéb'])],
@@ -124,13 +130,22 @@ class EntryController extends Controller
         ]);
 
         // Ha mood változik, új quote generálás
-        if (isset($validated['mood']) && $validated['mood'] !== $entry->mood) {
-            $quote = Quote::where('mood', $validated['mood'])
-                ->inRandomOrder()
-                ->first();
-            
-            $validated['quote_id'] = $quote ? $quote->quote_id : null;
+        if (array_key_exists('mood', $validated)) {
+            if ($validated['mood'] !== $entry->mood) {
+                if ($validated['mood'] !== null) {
+                    // Mood megadva → mood szerint
+                    $quote = Quote::where('mood', $validated['mood'])
+                        ->inRandomOrder()
+                        ->first();
+                } else {
+                    // Mood NULL → random az egészből
+                    $quote = Quote::inRandomOrder()->first();
+                }
+                
+                $validated['quote_id'] = $quote ? $quote->quote_id : null;
+            }
         }
+
 
         // Entry frissítése
         $entry->update($validated);
