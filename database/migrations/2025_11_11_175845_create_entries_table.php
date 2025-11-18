@@ -15,7 +15,7 @@ return new class extends Migration
         $table->id('entry_id');
         $table->unsignedBigInteger('user_id');
         $table->unsignedBigInteger('quote_id')->nullable();
-        $table->enum('mood', ['Lehangolt', 'Kiegyensúlyozott', 'Vidám']);
+        $table->enum('mood', ['Lehangolt', 'Kiegyensúlyozott', 'Vidám'])->nullable();
         $table->enum('weather', ['Napos', 'Felhős', 'Esős', 'Szeles', 'Havas']);
         $table->enum('sleep_quality', ['Nagyon rossz', 'Rossz', 'Közepes', 'Jó', 'Kiváló']);
         $table->enum('activities', ['Munka', 'Tanulás', 'Pihenés', 'Sport', 'Szórakozás', 'Egyéb']);
