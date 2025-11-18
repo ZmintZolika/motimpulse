@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\Quote;
 
-class MotivationalQuoteSeeder extends Seeder
+class QuoteSeeder extends Seeder
 {
     public function run(): void
     {
