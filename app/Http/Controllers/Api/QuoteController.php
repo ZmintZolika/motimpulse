@@ -51,7 +51,7 @@ class QuoteController extends Controller
 
         if (!$quote) {
             return response()->json([
-                'message' => 'Nincs elérhető quote',
+                'message' => 'Nincs elérhető idézet.',
             ], 404);
         }
 

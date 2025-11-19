@@ -47,7 +47,7 @@ class EntryController extends Controller
         // Quote generálás
         if (isset($validated['mood'])) {
             // Ha mood megadva → mood szerint random quote
-            $quote = Quote::where('mood', $validated['mood'])
+            $quote = Quote::where('quote_category', $validated['mood'])
                 ->inRandomOrder()
                 ->first();
         } else {
