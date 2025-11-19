@@ -6,30 +6,34 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\EntryController;
 use App\Http\Controllers\Api\QuoteController;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Itt definiáljuk az API végpontokat. Ezek a route-ok automatikusan
-| /api prefix-et kapnak és stateless-ek (session nélkül működnek).
-|
-*/
+// ============================================
+// Public Routes
+// ============================================
 
-// Publikus route-ok (nincs autentikáció)
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
+Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 
-// Quote-ok (publikus, autentikáció nélkül is elérhető)
-Route::get('/quotes', [QuoteController::class, 'index']);
-Route::get('/quotes/random', [QuoteController::class, 'random']);
+// User endpoint
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+    return $request->user();
+});
 
-// Védett route-ok (auth:sanctum middleware szükséges)
+// ============================================
+// Protected Routes (auth:sanctum)
+// ============================================
+
 Route::middleware('auth:sanctum')->group(function () {
-    // Auth endpoint-ok
-    Route::post('/logout', [AuthController::class, 'logout']);
-    Route::get('/user', [AuthController::class, 'user']);
     
-    // Entry CRUD műveletek
-    Route::apiResource('entries', EntryController::class);
+    // Quote API (Read-Only)
+    Route::get('/quotes', [QuoteController::class, 'index']);
+    Route::get('/quotes/random', [QuoteController::class, 'random']);
+    
+    // Entry API (Full CRUD)
+    Route::get('/entries', [EntryController::class, 'index']);
+    Route::post('/entries', [EntryController::class, 'store']);
+    Route::get('/entries/{id}', [EntryController::class, 'show']);
+    Route::put('/entries/{id}', [EntryController::class, 'update']);
+    Route::patch('/entries/{id}', [EntryController::class, 'update']);
+    Route::delete('/entries/{id}', [EntryController::class, 'destroy']);
 });
