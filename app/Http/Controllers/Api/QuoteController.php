@@ -41,7 +41,7 @@ class QuoteController extends Controller
             }
 
             // Random quote mood szerint
-            $quote = Quote::where('mood', $mood)
+            $quote = Quote::where('quote_category', $mood)
                 ->inRandomOrder()
                 ->first();
         } else {
