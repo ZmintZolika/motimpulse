@@ -57,9 +57,10 @@ A MotImpulse backend egy biztonságos, RESTful API, amely naplózza a felhaszná
 
 ## 📦 Követelmények
 
-- Composer 2.5+
-- Git
-- (Fejlesztéshez) Node.js, npm (frontend)
+- PHP: 8.2+
+- MySQL: 8.0+ / MariaDB
+- Composer: 2.5+
+- (opcionális) Node.js és npm: ha fejlesztői eszközök vagy modern frontend build is használatban lesz
 
 ---
 
