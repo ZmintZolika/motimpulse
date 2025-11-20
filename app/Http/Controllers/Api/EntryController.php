@@ -134,7 +134,7 @@ class EntryController extends Controller
             if ($validated['mood'] !== $entry->mood) {
                 if ($validated['mood'] !== null) {
                     // Mood megadva → mood szerint
-                    $quote = Quote::where('mood', $validated['mood'])
+                    $quote = Quote::where('quote_category', $validated['mood'])
                         ->inRandomOrder()
                         ->first();
                 } else {
