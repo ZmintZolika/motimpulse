@@ -90,11 +90,11 @@
 
 <div class="container d-flex justify-content-center align-items-center vh-100">
     <div> 
-<div> 
-   	<div class="brand-header">
+        <div> 
+   	    <div class="brand-header">
             <img src="{{ asset('assets/logo.png') }}" alt="MotImpulse logó">
             <h1>MotImpulse</h1>
-</div>
+        </div>
         <div class="card p-5 text-center" style="width: 100%; max-width: 520px;">
             <!-- Guest nézet -->
             <div id="guestView" style="display: none;">
@@ -104,8 +104,8 @@
                     <a href="{{ route('login') }}" class="btn btn-primary btn-lg"><i class="fas fa-sign-in-alt me-2"></i>Bejelentkezés</a>
                     <a href="{{ route('register') }}" class="btn btn-primary btn-lg"><i class="fas fa-user-plus me-2"></i>Regisztráció</a>
                 </div>
-	    </div>
-       </div>
+	        </div>
+       
 
             <!-- Felhasználói nézet -->
             <div id="userView" style="display: none;">

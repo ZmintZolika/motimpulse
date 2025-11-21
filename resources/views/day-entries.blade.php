@@ -290,6 +290,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  
+
   await loadUser();
   await loadEntries();
   await loadQuote();
@@ -299,3 +301,49 @@ init();
 </script>
 </body>
 </html>
+
+<script>
+  //---------------------------------------------------------------------------------------------------
+  document.addEventListener('DOMContentLoaded', function()) {
+    
+    // Először definiálunk egy funkciót, ami lekéri és megjeleníti az idézetet
+    // Erre azért van szükség, hogy a "Mentés" gomb is meg tudja hívni később
+    function fetchAndShowQuote() {
+        // A 'fetch' segítségével hívást indítunk a Laravel kontrolleredben
+        // definiált útvonalra.
+        // FONTOS: Ha az útvonalad '/api/quotes/random', akkor itt javítsd!
+        fetch('/api/quotes/random')
+            .then(response => {
+                // Ellenőrizzük, hogy a válasz sikeres-e
+                if (!response.ok) {
+                    throw new Error('Hálózati hiba: ' + response.statusText);
+                }
+                // Átalakítjuk a választ JSON-ná
+                return response.json();
+            })
+            .then(data => {
+                // Megkaptuk az adatot (pl. { text: "...", author: "..." })
+
+                // Megkeressük a HTML elemeket az 'id' alapján
+                const quoteCard = document.getElementById('quoteCard');
+                const quoteText = document.getElementById('quoteText');
+                const quoteAuthor = document.getElementById('quoteAuthor');
+
+                // Beállítjuk a tartalmukat a kapott adatok alapján
+                if (data && data.text && data.author) {
+                    quoteText.textContent = `„${data.text}”`; // Idézőjelekkel szebb
+                    quoteAuthor.textContent = `- ${data.author}`;
+                    
+                    // És a legfontosabb: láthatóvá tesszük a kártyát
+                    quoteCard.style.display = 'block';
+                } else {
+                    console.error('Hiányos idézet adatot kaptunk.');
+                }
+            })
+            .catch(error => {
+                // Hiba esetén kiírjuk a konzolra
+                console.error('Hiba történt az idézet lekérése közben:', error);
+            });
+    }
+      fetchAndShowQuote();
+      </script>
