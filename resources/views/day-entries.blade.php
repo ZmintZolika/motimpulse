@@ -7,112 +7,167 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
   <style>
     body {
-      background: linear-gradient(to right, #f1f5f9, #e2e8f0);
-      font-family: 'Segoe UI', sans-serif;
+  background: url('/assets/bg-beach.png') no-repeat center center fixed;
+  background-size: cover;
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+overflow-y: auto; 
+z-index:0;
     }
-    h1, h2, h3 {
+
+    html, body {
+      height: 100%;
+    }
+
+    
+    .card {
+      background-color: rgba(255, 255, 255, 0.55);
+      backdrop-filter: blur(10px);
+      border-radius: 1rem;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+      padding: 2rem;
+      position: relative;
+      z-index: 1;
+      overflow: visible;
+    }
+
+    .brand-box {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .brand-box img {
+      height: 48px;
+      margin-right: 12px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(59,130,246,0.4);
+    }
+
+    .brand-box h1 {
+      font-weight: 600;
+      color: #3b82f6;
+      font-size: 2rem;
+      margin: 0;
+      text-shadow: 0 0 8px rgba(59,130,246,0.3);
+      letter-spacing: 1px;
+    }
+
+    h2, h3 {
       color: #3b82f6;
       display: flex;
       align-items: center;
       justify-content: center;
     }
-    h1 i, h2 i, h3 i {
+
+    h2 i, h3 i {
       margin-left: 10px;
       animation: bounce 1.5s infinite;
     }
-    .card {
-      border: none;
-      box-shadow: 0 5px 25px rgba(0,0,0,0.1);
-      transition: transform 0.2s, box-shadow 0.2s;
+
+    @keyframes bounce {
+      0%,100%{transform:translateY(0);}
+      50%{transform:translateY(-5px);}
     }
-    .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 35px rgba(0,0,0,0.15);
-    }
-    .btn-primary {
-      background-color: #3b82f6;
-      border: none;
-      transition: transform 0.2s;
-    }
-    .btn-primary:hover {
-      background-color: #2563eb;
-      transform: scale(1.05);
-    }
-    .btn-success {
-      background-color: #10b981;
-      border: none;
-      transition: transform 0.2s;
-    }
-    .btn-success:hover {
-      background-color: #059669;
-      transform: scale(1.05);
-    }
+
     .btn-danger {
       background-color: #f87171;
       border: none;
       transition: transform 0.2s;
     }
+
     .btn-danger:hover {
       background-color: #ef4444;
       transform: scale(1.05);
     }
-    #quoteCard p {
-      color: #3b82f6;
-      font-style: italic;
+
+    .btn-success {
+      background-color: #10b981;
+      border: none;
+      transition: transform 0.2s;
     }
-    #quoteCard footer {
-      font-weight: 500;
-      text-align: center;
-      margin-top: 5px;
+
+    .btn-success:hover {
+      background-color: #059669;
+      transform: scale(1.05);
     }
-    .alert {
-      animation: fadeInOut 5s forwards;
+
+    .btn-primary {
+      background-color: #3b82f6;
+      border: none;
+      transition: transform 0.2s;
     }
-    @keyframes bounce {
-      0%,100%{transform:translateY(0);}
-      50%{transform:translateY(-5px);}
+
+    .btn-primary:hover {
+      background-color: #2563eb;
+      transform: scale(1.05);
     }
-    @keyframes fadeInOut {
-      0%{opacity:0;}
-      10%{opacity:1;}
-      90%{opacity:1;}
-      100%{opacity:0;}
-    }
+
     .logo {
       height: 48px;
       margin-right: 15px;
       border-radius: 8px;
       box-shadow: 0 0 10px rgba(59,130,246,0.4);
     }
+
+    #quoteCard p {
+      color: #3b82f6;
+      font-style: italic;
+    }
+
+    #quoteCard footer {
+      font-weight: 500;
+      text-align: center;
+      margin-top: 5px;
+    }
+
+    .alert {
+      animation: fadeInOut 5s forwards;
+    }
+
+    @keyframes fadeInOut {
+      0%{opacity:0;}
+      10%{opacity:1;}
+      90%{opacity:1;}
+      100%{opacity:0;}
+    }
   </style>
+
+
 </head>
 <body class="bg-light">
 
 <div class="container py-4">
 
-  <div class="d-flex justify-content-between align-items-center mb-4">
-    <div class="d-flex align-items-center">
-      <img src="/assets/logo.png" alt="MotImpulse logo" class="logo">
-      <div>
-        <h1 id="userGreeting">Napi bejegyzések <i class="bi bi-journal-text"></i></h1>
+    <div class="card p-4 mb-4 shadow-sm">
+      
+    <div class="d-flex align-items-center mb-3">
+    <img src="/assets/logo.png" alt="MotImpulse logo" class="logo">
+        
+        <h2 id="userGreeting">Napi bejegyzések <i class="bi bi-journal-text"></i></h2>
       	<small class="text-muted" style="display:none;" id="userEmail"></small>
-	</div>
-    </div>
-    <button id="logoutBtn" class="btn btn-danger">Kijelentkezés</button>
-  </div>
+    <button id="logoutBtn" class="btn btn-danger ms-auto">Kijelentkezés</button>
+  </div>   
 
-  <div id="messageBox"></div>
 
-  <div id="quoteCard" class="card p-4 mb-4 shadow-sm bg-white" style="display:none;">
-    <blockquote class="blockquote mb-0 text-center">
+    <div id="messageBox"></div>
+
+  <div class="card p-4 mb-4 shadow-sm">
+<blockquote class="blockquote mb-0 text-center">
       <p id="quoteText" class="fs-5 fw-semibold"></p>
       <footer id="quoteAuthor">- author -</footer>
     </blockquote>
   </div>
 
   <div class="card p-4 mb-4 shadow-sm">
-    <h2 class="mb-3">Új bejegyzés hozzáadása <i class="bi bi-plus-circle"></i></h2>
-    <form id="entryForm">
+
+	
+    <h3 class="mb-3">Új bejegyzés hozzáadása <i class="bi bi-plus-circle"></i></h3>
+</div>    
+<form id="entryForm">
       <div class="row g-3">
         <div class="col-md-3">
           <label for="date" class="form-label">Dátum</label>
@@ -165,6 +220,7 @@
     </form>
   </div>
 
+
   <div class="card p-4 shadow-sm">
     <h3 class="mb-3">Korábbi bejegyzések <i class="bi bi-clock-history"></i></h3>
     <div class="table-responsive">
@@ -181,6 +237,7 @@
     </div>
   </div>
 </div>
+
 
 <script>
 const token = localStorage.getItem('token');
@@ -204,7 +261,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const res = await fetch('/api/user', { headers: { 'Authorization': 'Bearer ' + token } });
       if (!res.ok) throw new Error('Unauthorized');
       const user = await res.json();
-      document.getElementById('userGreeting').innerHTML = `Szia, ${user.name || 'Felhasználó'}! <i class="bi bi-emoji-smile"></i>`;
+      document.getElementById('userGreeting').innerHTML = `Szia, ${user.name || 'Felhasználó'}!`;
       document.getElementById('userEmail').innerText = user.email;
     } catch {
       localStorage.removeItem('token');
