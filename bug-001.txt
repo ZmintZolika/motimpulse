@@ -1,0 +1,29 @@
+Azonosító: BUG-001
+
+Összefoglalás: Főoldal összeomlik indításkor (View [hello] not found)
+
+Súlyosság: Kritikus
+
+Prioritás: Magas
+
+Státusz: Nyitott
+
+Komponens: Backend / Routing
+
+Környezet: Windows 10 / XAMPP / Laravel
+
+Előfeltételek: Repozitórium klónozva, .env beállítva, szerver fut (php artisan serve).
+
+Lépések:
+
+Böngésző megnyitása.
+
+Navigálás a http://127.0.0.1:8000 címre.
+
+Elvárt működés: A Laravel alapértelmezett üdvözlő oldalának (welcome) kellene megjelennie hiba nélkül.
+
+Tényleges működés: 500-as szerver hiba, az oldal nem tölt be. Oka: A routes/web.php fájlban duplikált útvonal definíció van, ami egy nem létező hello nézetre hivatkozik.
+
+Felelős: Nincs hozzárendelve
+
+Létrehozva: 2025.11.29
