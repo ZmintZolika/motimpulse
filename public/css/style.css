@@ -1,0 +1,130 @@
+body {
+    /* FIGYELEM: CSS fájlban nem működik a {{ asset() }}, ezért relatív útvonalat használunk.
+       Ez azt feltételezi, hogy a fájl a public/css mappában van, a kép pedig a public/assets mappában. */
+    background: url('../assets/bg-beach.jpg') no-repeat center center fixed;
+    background-size: cover;
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+}
+
+/* Üveg hatású kártya (Glassmorphism) */
+.card {
+    background-color: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    border-radius: 24px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+    padding: 2.5rem;
+    width: 100%;
+    max-width: 480px;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+/* Logó és Cím */
+.brand-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    gap: 12px;
+}
+
+.brand-header img {
+    height: 48px;
+    width: auto;
+    border-radius: 10px;
+}
+
+.brand-header h1 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #1f2937;
+    margin: 0;
+}
+
+h2.welcome-title {
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 0.5rem;
+}
+
+p.subtitle {
+    font-size: 1rem;
+    color: #4b5563;
+    margin-bottom: 2rem;
+    line-height: 1.5;
+}
+
+/* Gombok */
+.btn-lg {
+    padding: 12px 20px;
+    font-size: 1.1rem;
+    border-radius: 12px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.btn-lg i {
+    margin-right: 10px;
+}
+
+/* Kék gomb */
+.btn-custom-primary {
+    background-color: #3b82f6;
+    color: white;
+    border: none;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+.btn-custom-primary:hover {
+    background-color: #2563eb;
+    color: white;
+    transform: translateY(-2px);
+}
+
+/* Világos gomb */
+.btn-custom-secondary {
+    background-color: rgba(230, 235, 240, 0.7);
+    color: #1f2937;
+    border: 1px solid rgba(255,255,255,0.5);
+}
+.btn-custom-secondary:hover {
+    background-color: rgba(220, 225, 230, 0.9);
+    color: #111;
+    transform: translateY(-2px);
+}
+
+/* Piros gomb */
+.btn-custom-danger {
+    background-color: #e56660;
+    color: white;
+    border: none;
+    box-shadow: 0 4px 12px rgba(229, 102, 96, 0.3);
+}
+.btn-custom-danger:hover {
+    background-color: #dc5049;
+    color: white;
+    transform: translateY(-2px);
+}
+
+/* Reszponzív */
+@media (max-width: 576px) {
+    .card {
+        width: 90%;
+        padding: 2rem 1.5rem;
+        margin: 20px;
+    }
+}
