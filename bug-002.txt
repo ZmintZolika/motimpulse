@@ -1,0 +1,31 @@
+Azonosító: BUG-002
+
+Összefoglalás: Hiányzó egyedi 404-es hibaoldal
+
+Súlyosság: Közepes
+
+Prioritás: Közepes
+
+Státusz: Nyitott
+
+Komponens: Frontend / UX
+
+Környezet: Windows 10 / XAMPP / Laravel
+
+Előfeltételek: Szerver fut (php artisan serve).
+
+Lépések:
+
+Böngésző megnyitása.
+
+Navigálás egy nem létező címre, pl.: http://127.0.0.1:8000/kiscica
+
+Elvárt működés: A weboldal arculatába illeszkedő "Az oldal nem található" üzenet megjelenése.
+
+Tényleges működés: A szerver vagy a böngésző alapértelmezett, formázatlan hibaüzenete jelenik meg.
+
+Oka: Nincs létrehozva egyedi 404.blade.php nézet, vagy nincs beállítva a fallback útvonal.
+
+Felelős: Nincs hozzárendelve
+
+Létrehozva: 2025.12.01
