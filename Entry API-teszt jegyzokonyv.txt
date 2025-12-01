@@ -1,0 +1,77 @@
+TESZT JEGYZŐKÖNYV - ENTRY (NAPLÓ) MODUL
+============================================================
+Dátum: 2025-12-01
+Tesztelő: Szerencsés Viktor
+Környezet: Helyi fejlesztői környezet (Localhost)
+Eszköz: Postman
+Modul: Bejegyzések kezelése (CRUD)
+============================================================
+
+1. TESZTESET: LÉTREHOZÁS (TC-ENTRY-001)
+------------------------------------------------------------
+Cél: Új naplóbejegyzés rögzítése.
+Végpont: POST /api/entries
+Auth: Bearer Token szükséges.
+Bemenet (JSON):
+  - Hangulat: Vidám
+  - Időjárás: Napos
+  - Alvás: Kiváló
+  - Tevékenység: Tanulás
+  - Egészség: Mozgás
+  - Megjegyzés: Első teszt bejegyzés.
+Elvárt eredmény: 201 Created / 200 OK. Az adatbázisba bekerül.
+Tényleges eredmény: 200 OK.
+Eredmény: SIKERES
+
+2. TESZTESET: LISTÁZÁS (TC-ENTRY-002)
+------------------------------------------------------------
+Cél: A felhasználó összes saját bejegyzésének listázása.
+Végpont: GET /api/entries
+Auth: Bearer Token szükséges.
+Elvárt eredmény:
+  - JSON lista visszaadása.
+  - A listában szerepel a létrehozott bejegyzés.
+Tényleges eredmény: Lista megérkezett, adat ellenőrizve.
+Eredmény: SIKERES
+
+3. TESZTESET: EGY BEJEGYZÉS LEKÉRÉSE (TC-ENTRY-003)
+------------------------------------------------------------
+Cél: Egy konkrét bejegyzés részletes adatainak megtekintése.
+Végpont: GET /api/entries/{id}
+Auth: Bearer Token szükséges.
+Elvárt eredmény:
+  - 200 OK státusz.
+  - Egyetlen JSON objektum érkezik (nem lista).
+  - Tartalmazza a bejegyzés részleteit és a hozzárendelt idézetet.
+Tényleges eredmény: Adatok helyesen megjelentek.
+Eredmény: SIKERES
+
+4. TESZTESET: MÓDOSÍTÁS (TC-ENTRY-004)
+------------------------------------------------------------
+Cél: Meglévő bejegyzés frissítése és az automatikus quote változás ellenőrzése.
+Végpont: PUT /api/entries/{id}
+Bemenet:
+  - Hangulat módosítása: Vidám -> Lehangolt
+Elvárt eredmény:
+  - 200 OK.
+  - A hangulat frissül az adatbázisban.
+  - A rendszer új, a hangulathoz illő idézetet rendel hozzá (Quote ID változik).
+Tényleges eredmény: Hangulat és Quote frissült.
+Eredmény: SIKERES
+
+5. TESZTESET: TÖRLÉS (TC-ENTRY-005)
+------------------------------------------------------------
+Cél: Bejegyzés "Soft Delete" törlése.
+Végpont: DELETE /api/entries/{id}
+Elvárt eredmény:
+  - 200 OK / 204 No Content.
+  - Listázáskor (TC-ENTRY-002 ismétlése) a bejegyzés már NEM jelenik meg.
+  - Adatbázisban az 'is_deleted' mező jelzi a törlést.
+Tényleges eredmény: Listából eltűnt.
+Eredmény: SIKERES
+
+============================================================
+ÖSSZEGZÉS:
+A Napló modul minden funkciója (Létrehozás, Listázás, Lekérés, 
+Szerkesztés, Törlés) a specifikációnak megfelelően működik.
+============================================================
