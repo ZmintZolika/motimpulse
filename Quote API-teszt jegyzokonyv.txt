@@ -1,0 +1,50 @@
+TESZT JEGYZŐKÖNYV - IDÉZET (QUOTE) MODUL
+============================================================
+Dátum: 2025-12-02
+Tesztelő: Szerencsés Viktor
+Környezet: Helyi fejlesztői környezet (Localhost)
+Eszköz: Postman
+Modul: Idézetek lekérdezése és szűrése
+============================================================
+
+1. TESZTESET: ÖSSZES IDÉZET LISTÁZÁSA (TC-QUOTE-001)
+------------------------------------------------------------
+Cél: Az adatbázisban lévő összes idézet lekérése.
+Végpont: GET /api/quotes
+Auth: Bearer Token szükséges.
+Előfeltétel: Adatbázis feltöltve tesztadatokkal (Seeder).
+Elvárt eredmény:
+  - 200 OK státusz.
+  - A válasz egy JSON lista (array), amely tartalmazza az összes elemet.
+Tényleges eredmény: A lista sikeresen megérkezett (22 db elem).
+Eredmény: SIKERES
+
+2. TESZTESET: VÉLETLEN IDÉZET LEKÉRÉSE (TC-QUOTE-002)
+------------------------------------------------------------
+Cél: Egy darab véletlenszerű idézet lekérése a felhasználó számára.
+Végpont: GET /api/quotes/random
+Auth: Bearer Token szükséges.
+Elvárt eredmény:
+  - 200 OK státusz.
+  - A válasz egyetlen JSON objektum (nem lista).
+  - Ismételt hívásra az ID vagy a tartalom változik.
+Tényleges eredmény: Véletlenszerű objektum megérkezett.
+Eredmény: SIKERES
+
+3. TESZTESET: IDÉZET SZŰRÉSE HANGULAT ALAPJÁN (TC-QUOTE-003)
+------------------------------------------------------------
+Cél: Releváns idézet lekérése specifikus hangulathoz.
+Végpont: GET /api/quotes/random?mood=<mood>
+Paraméter teszt: mood = Vidám
+Auth: Bearer Token szükséges.
+Elvárt eredmény:
+  - 200 OK státusz.
+  - A visszaadott idézet 'mood' vagy kategória mezője egyezik a kért paraméterrel (Vidám).
+Tényleges eredmény: A rendszer releváns, pozitív idézetet adott vissza.
+Eredmény: SIKERES
+
+============================================================
+ÖSSZEGZÉS:
+Az Idézet modul funkciói (Listázás, Véletlen választás, Szűrés)
+hiba nélkül működnek a hitelesített felhasználó számára.
+============================================================
