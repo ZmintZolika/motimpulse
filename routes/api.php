@@ -1,48 +1,40 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
-use App\Http\Controllers\Api\DayEntryController;
-use App\Http\Controllers\Api\MotivationalQuoteController;
+use App\Http\Controllers\Api\EntryController;
+use App\Http\Controllers\Api\QuoteController;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes - Authentication
-|--------------------------------------------------------------------------
-*/
+// ============================================
+// Public Routes
+// ============================================
 
-// Nyilvános útvonalak (nem kell bejelentkezés)
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
+Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 
-// Védett útvonalak (kell Bearer token)
-Route::middleware('auth:sanctum')->group(function () {
-    Route::post('/logout', [AuthController::class, 'logout']);
-    Route::get('/user', [AuthController::class, 'user']);
+// User endpoint
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+    return $request->user();
 });
 
-/*
-|--------------------------------------------------------------------------
-| API Routes - Day Entries
-|--------------------------------------------------------------------------
-*/
+// ============================================
+// Protected Routes (auth:sanctum)
+// ============================================
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/day-entries', [DayEntryController::class, 'index']);
-    Route::post('/day-entries', [DayEntryController::class, 'store']);
-    Route::get('/day-entries/{dayEntry}', [DayEntryController::class, 'show']);
-    Route::put('/day-entries/{dayEntry}', [DayEntryController::class, 'update']);
-    Route::delete('/day-entries/{dayEntry}', [DayEntryController::class, 'destroy']);
+    
+    // Quote API (Read-Only)
+    Route::get('/quotes', [QuoteController::class, 'index']);
+    Route::get('/quotes/random', [QuoteController::class, 'random']);
+    
+    // Entry API (Full CRUD)
+    Route::get('/entries', [EntryController::class, 'index']);
+    Route::post('/entries', [EntryController::class, 'store']);
+    Route::get('/entries/{id}', [EntryController::class, 'show']);
+    Route::put('/entries/{id}', [EntryController::class, 'update']);
+    Route::patch('/entries/{id}', [EntryController::class, 'update']);
+    Route::delete('/entries/{id}', [EntryController::class, 'destroy']);
 });
-
-/*
-|--------------------------------------------------------------------------
-| API Routes - Motivational Quotes
-|--------------------------------------------------------------------------
-*/
-
-// NYILVÁNOS! Auth middleware NÉLKÜL!
-Route::get('/quotes', [MotivationalQuoteController::class, 'index']);
-Route::get('/quotes/random', [MotivationalQuoteController::class, 'random']);
 

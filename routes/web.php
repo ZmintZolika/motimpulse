@@ -28,3 +28,8 @@ Route::get('/teszt', function () {
 Route::get('/teszt-token', function () {
     return session('auth_token') ?? 'Nincs token';
 });
+
+Route::get('/', function () {
+    return view('hello');
+});
+
