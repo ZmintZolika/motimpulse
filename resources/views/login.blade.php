@@ -7,107 +7,9 @@
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Inter', 'Segoe UI', sans-serif;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: url('{{ asset('assets/bg-beach.png') }}') no-repeat center center fixed;
-      background-size: cover;
-      overflow: hidden;
-    }
-
-    /* Üveges hatású, áttetsző doboz */
-    .card {
-      position: relative;
-      z-index: 2;
-      background-color: rgba(255, 255, 255, 0.55); /* 55% opacity */
-      backdrop-filter: blur(10px);
-      border: none;
-      border-radius: 1rem;
-      padding: 3rem;
-      box-shadow: 0 15px 40px rgba(0,0,0,0.25);
-      transition: transform 0.3s, box-shadow 0.3s;
-    }
-
-    .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 25px 60px rgba(0,0,0,0.3);
-    }
-
-    .logo-box {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-
-    .logo-box img {
-      height: 70px;
-      border-radius: 12px;
-      box-shadow: 0 0 12px rgba(59,130,246,0.4);
-      margin-bottom: 10px;
-      animation: fadeIn 1s ease-out;
-    }
-
-    .logo-box h1 {
-      font-weight: 600;
-      color: #1e3a8a;
-      font-size: 2rem;
-      text-shadow: 0 0 8px rgba(59,130,246,0.3);
-      letter-spacing: 1px;
-    }
-
-    h2 {
-      color: #1e3a8a;
-      margin-bottom: 1.5rem;
-      font-weight: 600;
-    }
-
-    label {
-      font-size: 1.05rem;
-      color: #374151;
-    }
-
-    .btn-primary {
-      background-color: #3b82f6;
-      border: none;
-      transition: transform 0.2s, background-color 0.2s;
-    }
-
-    .btn-primary:hover {
-      background-color: #2563eb;
-      transform: scale(1.05);
-    }
-
-    a.text-primary:hover {
-      text-decoration: underline;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: scale(0.95); }
-      to { opacity: 1; transform: scale(1); }
-    }
-
-    @keyframes bounce {
-      0% { transform: translateY(0); }
-      100% { transform: translateY(-5px); }
-    }
-
-    .login-icon {
-      display: inline-block;
-      animation: bounce 1s infinite alternate;
-    }
-
-    @media (max-width: 576px) {
-      .card {
-        width: 90%;
-        padding: 2rem 1.5rem;
-      }
-    }
-  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <link href="{{ asset('css/style.css') }}" rel="stylesheet">
 </head>
 
 <body>
@@ -141,7 +43,6 @@
   <script>
     document.querySelector('#loginForm').addEventListener('submit', async (e) => {
       e.preventDefault();
-
       const email = document.querySelector('#email').value;
       const password = document.querySelector('#password').value;
 
