@@ -1,0 +1,51 @@
+SSZESÍTETT TESZT JEGYZŐKÖNYV - AUTHENTICATION FLOW
+============================================================
+Dátum: 2025-12-01
+Tesztelő: Szerencsés Viktor
+Környezet: Helyi fejlesztői környezet (Localhost)
+Eszköz: Postman
+Státusz: SIKERES (PASS)
+============================================================
+
+1. TESZTESET: REGISZTRÁCIÓ (TC-AUTH-001)
+------------------------------------------------------------
+Cél: Új felhasználó létrehozása a rendszerben.
+Végpont: POST /api/register
+Bemenet:
+  - Név: Teszt Elek
+  - Email: elek@teszt.hu
+  - Jelszó: [REDACTED] (min. 8 karakter)
+Elvárt eredmény: 201 Created státusz, felhasználó létrejön.
+Tényleges eredmény: 201 Created.
+Eredmény: SIKERES
+
+2. TESZTESET: BEJELENTKEZÉS (TC-AUTH-002)
+------------------------------------------------------------
+Cél: Hozzáférési token (Bearer Token) megszerzése.
+Végpont: POST /api/login
+Bemenet:
+  - Email: elek@teszt.hu
+  - Jelszó: [REDACTED]
+Elvárt eredmény:
+  - 200 OK státusz.
+  - A válasz tartalmaz egy érvényes Tokent.
+Tényleges eredmény: 200 OK, Token megérkezett.
+Eredmény: SIKERES
+
+3. TESZTESET: KIJELENTKEZÉS (TC-AUTH-003)
+------------------------------------------------------------
+Cél: A token érvénytelenítése (biztonsági teszt).
+Végpont: POST /api/logout
+Auth: Bearer Token (az előző lépésből)
+Elvárt eredmény:
+  - 200 OK státusz.
+  - Üzenet a sikeres kijelentkezésről.
+  - A régi tokennel már nem lehet adatot lekérni (opcionális ellenőrzés).
+Tényleges eredmény: 200 OK, "Logged out".
+Eredmény: SIKERES
+
+============================================================
+ÖSSZEGZÉS:
+A rendszer hitelesítési modulja (Regisztráció -> Belépés -> Kilépés)
+a specifikációnak megfelelően, hiba nélkül működik.
+============================================================
