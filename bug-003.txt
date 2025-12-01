@@ -1,0 +1,31 @@
+Azonosító: BUG-003
+
+Összefoglalás: Hiányzó tájékoztatás a jelszó minimális hosszáról (min. 8 karakter)
+
+Súlyosság: Közepes
+
+Prioritás: Közepes
+
+Státusz: Nyitott
+
+Komponens: Frontend / UX (Regisztráció)
+
+Környezet: Helyi fejlesztői környezet (Localhost) / Postman
+
+Előfeltételek: A szerver fut és elérhető a /api/register végpont.
+
+Lépések:
+
+1. A regisztrációs felület (vagy API dokumentáció) megnyitása.
+2. A jelszó mezőhöz tartozó segédszövegek megvizsgálása.
+3. Regisztráció megkísérlése 8 karakternél rövidebb jelszóval.
+
+Elvárt működés: A felületen egyértelmű szöveges tájékoztatás (pl. "min. 8 karakter") jelenjen meg a felhasználó számára még az adatküldés előtt.
+
+Tényleges működés: Nincs semmilyen utalás a jelszóhossz követelményére, a rendszer csak a sikertelen küldés után (vagy API hibaüzenetben) jelez, ami rontja a felhasználói élményt.
+
+Oka: A frontend felületen vagy a dokumentációban nincs megjelenítve a backend oldali validációs szabály.
+
+Felelős: Nincs hozzárendelve
+
+Létrehozva: 2025.12.01.
