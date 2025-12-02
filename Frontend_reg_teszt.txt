@@ -1,0 +1,47 @@
+FRONTEND TESZT JEGYZŐKÖNYV - REGISZTRÁCIÓS MODUL
+============================================================
+Dátum: 2025-12-02
+Tesztelő: Szerencsés Viktor
+Környezet: Microsoft Edge / Localhost
+Eszköz: Böngésző (Manuális teszt) + DevTools
+Modul: Regisztrációs felület (UI/UX)
+============================================================
+
+1. TESZTESET: SIKERES REGISZTRÁCIÓ (TC-FE-REG-001)
+------------------------------------------------------------
+Cél: Új felhasználói fiók létrehozása érvényes adatokkal.
+Lépések:
+  1. A regisztrációs oldal (/register) megnyitása.
+  2. Név, Email kitöltése.
+  3. Jelszó és megerősítés megadása (min. 8 karakter).
+  4. "Regisztráció" gomb megnyomása.
+Elvárt eredmény:
+  - Az űrlap elküldése sikeres (HTTP 201).
+  - A rendszer automatikusan átirányít a Bejelentkezésre vagy a Főoldalra.
+Tényleges eredmény:
+  - Regisztráció sikeres.
+  - Átirányítás megtörtént.
+Eredmény: SIKERES
+
+2. TESZTESET: JELSZÓ VALIDÁCIÓ VISSZAJELZÉSE (TC-FE-REG-002)
+------------------------------------------------------------
+Cél: Ellenőrizni, hogy a felhasználó kap-e megfelelő tájékoztatást hibás jelszó esetén.
+Lépések:
+  1. Űrlap kitöltése.
+  2. Jelszó mezőbe rövid, érvénytelen adat írása (pl. "123").
+  3. "Regisztráció" gomb megnyomása.
+Elvárt eredmény:
+  - A regisztráció nem sikerül.
+  - Specifikus hibaüzenet megjelenése: "A jelszónak legalább 8 karakter hosszúnak kell lennie."
+Tényleges eredmény:
+  - A regisztráció nem sikerül (Helyes).
+  - A felületen csak egy általános "Hiba történt a regisztráció során" üzenet jelenik meg (Helytelen).
+Hiba hivatkozás: BUG-003 (UX/Frontend hiba)
+Eredmény: RÉSZBEN SIKERES (Funkcionálisan jó, de UX hibás)
+
+============================================================
+ÖSSZEGZÉS:
+A regisztrációs folyamat technikailag működik, a felhasználók
+képesek fiókot létrehozni. A hibakezelés (Error Handling)
+azonban fejlesztésre szorul a jobb felhasználói élmény érdekében.
+============================================================
