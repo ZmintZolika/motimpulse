@@ -1,0 +1,258 @@
+/* =========================================
+   1. Alapbeállítások és Háttér
+   ========================================= */
+body {
+    margin: 0;
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    min-height: 100vh;
+    /* CSS-ben relatív útvonal kell: kilépünk a css mappából (..), be az assets-be */
+    background: url('../assets/bg-beach.png') no-repeat center center fixed;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* Ha görgethető tartalom van, ez fontos: */
+    overflow-x: hidden;
+    overflow-y: auto; 
+}
+
+/* Ez biztosítja, hogy a body mindig kitöltse a képernyőt */
+html, body {
+    height: 100%;
+}
+
+/* =========================================
+   2. Üveg Kártya (Glassmorphism)
+   ========================================= */
+.card {
+    position: relative;
+    z-index: 2;
+    /* Az !important segít, hogy a Bootstrap ne írja felül fehérrel */
+    background-color: rgba(255, 255, 255, 0.55) !important;
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    border-radius: 24px; /* Egységesítettem 24px-re a modernebb hatásért */
+    box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+    padding: 2.5rem;
+    transition: transform 0.3s, box-shadow 0.3s;
+    overflow: visible; /* Fontos a tooltipeknek vagy kilógó elemeknek */
+}
+
+/* Hover effekt csak akkor, ha nem mobilon vagyunk */
+@media (min-width: 992px) {
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 25px 60px rgba(0,0,0,0.3);
+    }
+}
+
+/* Mobilon legyen kisebb a padding */
+@media (max-width: 576px) {
+    .card {
+        width: 90% !important;
+        padding: 1.5rem !important;
+        margin: 1rem auto;
+    }
+}
+
+/* =========================================
+   3. Logó és Fejléc Stílusok
+   ========================================= */
+/* Közös stílus a különböző elnevezésekhez (brand-header, brand-box, logo-box) */
+.brand-header, .brand-box, .logo-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    gap: 12px;
+    text-align: center;
+    animation: fadeIn 1s ease-out;
+}
+
+/* Ha a logó és a szöveg egymás alatt van (pl. Login oldal) */
+.logo-box {
+    flex-direction: column;
+}
+
+.brand-header img, .brand-box img, .logo-box img {
+    height: 48px; /* Egységes méret */
+    width: auto;
+    border-radius: 10px;
+    box-shadow: 0 0 12px rgba(59,130,246,0.4);
+}
+/* A login oldalon nagyobb a logó */
+.logo-box img {
+    height: 70px; 
+    margin-bottom: 10px;
+}
+
+.brand-header h1, .brand-box h1, .logo-box h1 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #1e3a8a; /* Sötétkék */
+    margin: 0;
+    text-shadow: 0 0 8px rgba(59,130,246,0.3);
+    letter-spacing: 1px;
+}
+
+/* =========================================
+   4. Tipográfia (Címsorok, Szövegek)
+   ========================================= */
+h2, h3 {
+    color: #1e3a8a;
+    font-weight: 600;
+}
+
+h2.welcome-title {
+    font-size: 1.75rem;
+    color: #1f2937;
+    margin-bottom: 0.5rem;
+}
+
+p.subtitle {
+    font-size: 1rem;
+    color: #4b5563;
+    margin-bottom: 2rem;
+    line-height: 1.5;
+}
+
+label, .form-label {
+    font-weight: 500;
+    color: #1f2937;
+    margin-bottom: 0.5rem;
+}
+
+/* =========================================
+   5. Űrlap elemek (Inputok)
+   ========================================= */
+.form-control, .form-select {
+    background-color: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 12px;
+    padding: 10px 15px;
+    font-size: 1rem;
+}
+
+.form-control:focus, .form-select:focus {
+    background-color: #fff;
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
+    border-color: #3b82f6;
+}
+
+/* =========================================
+   6. Gombok
+   ========================================= */
+.btn {
+    border-radius: 12px;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.btn:hover {
+    transform: scale(1.02);
+}
+
+/* Bootstrap felülírások és egyedi gombok */
+.btn-primary, .btn-custom-primary {
+    background-color: #3b82f6;
+    border: none;
+    color: white;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+.btn-primary:hover, .btn-custom-primary:hover {
+    background-color: #2563eb;
+    color: white;
+}
+
+.btn-custom-secondary {
+    background-color: rgba(230, 235, 240, 0.7);
+    color: #1f2937;
+    border: 1px solid rgba(255,255,255,0.5);
+}
+.btn-custom-secondary:hover {
+    background-color: rgba(220, 225, 230, 0.9);
+    color: #111;
+}
+
+.btn-danger, .btn-custom-danger {
+    background-color: #ef4444; /* Piros */
+    border: none;
+    color: white;
+}
+.btn-danger:hover, .btn-custom-danger:hover {
+    background-color: #dc2626;
+}
+
+.btn-success {
+    background-color: #10b981; /* Zöld */
+    border: none;
+}
+.btn-success:hover {
+    background-color: #059669;
+}
+
+/* Nagy gombok ikonnal */
+.btn-lg {
+    padding: 12px 20px;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.btn-lg i { margin-right: 10px; }
+
+/* =========================================
+   7. Animációk
+   ========================================= */
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+}
+
+.login-icon, .register-icon, h2 i, h3 i {
+    display: inline-block;
+    animation: bounce 1.5s infinite alternate;
+}
+
+.alert {
+    animation: fadeIn 0.5s ease-out;
+}
+
+/* =========================================
+   8. Specifikus oldalak elemei
+   ========================================= */
+
+/* Day Entries oldal */
+.logo {
+    height: 48px;
+    margin-right: 15px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(59,130,246,0.4);
+}
+
+#quoteCard p {
+    color: #3b82f6;
+    font-style: italic;
+}
+
+/* Show Entry oldal */
+.label-text { font-weight: 600; color: #555; }
+.data-text { font-size: 1.1rem; color: #222; }
+.note-box { 
+    background: rgba(255,255,255,0.5); 
+    padding: 15px; 
+    border-radius: 10px; 
+    border-left: 4px solid #3b82f6; 
+}
+.divider {
+    height: 1px;
+    background: rgba(0,0,0,0.1);
+    margin: 1.5rem 0;
+    width: 100%;
+}
