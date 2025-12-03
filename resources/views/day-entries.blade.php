@@ -3,183 +3,121 @@
 <head>
   <meta charset="UTF-8">
   <title>Napi bejegyzések</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+
   <style>
-    body {
-      background: linear-gradient(to right, #f1f5f9, #e2e8f0);
-      font-family: 'Segoe UI', sans-serif;
-    }
-    h1, h2, h3 {
-      color: #3b82f6;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    h1 i, h2 i, h3 i {
-      margin-left: 10px;
-      animation: bounce 1.5s infinite;
-    }
-    .card {
-      border: none;
-      box-shadow: 0 5px 25px rgba(0,0,0,0.1);
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-    .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 35px rgba(0,0,0,0.15);
-    }
-    .btn-primary {
-      background-color: #3b82f6;
-      border: none;
-      transition: transform 0.2s;
-    }
-    .btn-primary:hover {
-      background-color: #2563eb;
-      transform: scale(1.05);
-    }
-    .btn-success {
-      background-color: #10b981;
-      border: none;
-      transition: transform 0.2s;
-    }
-    .btn-success:hover {
-      background-color: #059669;
-      transform: scale(1.05);
-    }
-    .btn-danger {
-      background-color: #f87171;
-      border: none;
-      transition: transform 0.2s;
-    }
-    .btn-danger:hover {
-      background-color: #ef4444;
-      transform: scale(1.05);
-    }
-    #quoteCard p {
-      color: #3b82f6;
-      font-style: italic;
-    }
-    #quoteCard footer {
-      font-weight: 500;
-      text-align: center;
-      margin-top: 5px;
-    }
-    .alert {
-      animation: fadeInOut 5s forwards;
-    }
-    @keyframes bounce {
-      0%,100%{transform:translateY(0);}
-      50%{transform:translateY(-5px);}
-    }
-    @keyframes fadeInOut {
-      0%{opacity:0;}
-      10%{opacity:1;}
-      90%{opacity:1;}
-      100%{opacity:0;}
-    }
-    .logo {
-      height: 48px;
-      margin-right: 15px;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(59,130,246,0.4);
-    }
+      body {
+          display: block !important; 
+          height: auto !important;
+          padding-top: 2rem;
+          padding-bottom: 2rem;
+      }
+      .container {
+          max-width: 900px;
+      }
   </style>
 </head>
 <body class="bg-light">
 
-<div class="container py-4">
+<div class="container">
 
-  <div class="d-flex justify-content-between align-items-center mb-4">
-    <div class="d-flex align-items-center">
-      <img src="/assets/logo.png" alt="MotImpulse logo" class="logo">
-      <div>
-        <h1 id="userGreeting">Napi bejegyzések <i class="bi bi-journal-text"></i></h1>
+    <div class="card p-4 mb-4 shadow-sm">
+      <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+        <div class="d-flex align-items-center">
+            <img src="/assets/logo.png" alt="MotImpulse logo" class="logo">
+            <h2 id="userGreeting" class="m-0">Napi bejegyzések <i class="bi bi-journal-text"></i></h2>
+        </div>
       	<small class="text-muted" style="display:none;" id="userEmail"></small>
-	</div>
-    </div>
-    <button id="logoutBtn" class="btn btn-danger">Kijelentkezés</button>
-  </div>
-
-  <div id="messageBox"></div>
-
-  <div id="quoteCard" class="card p-4 mb-4 shadow-sm bg-white" style="display:none;">
-    <blockquote class="blockquote mb-0 text-center">
-      <p id="quoteText" class="fs-5 fw-semibold"></p>
-      <footer id="quoteAuthor">- author -</footer>
-    </blockquote>
-  </div>
-
-  <div class="card p-4 mb-4 shadow-sm">
-    <h2 class="mb-3">Új bejegyzés hozzáadása <i class="bi bi-plus-circle"></i></h2>
-    <form id="entryForm">
-      <div class="row g-3">
-        <div class="col-md-3">
-          <label for="date" class="form-label">Dátum</label>
-          <input type="date" id="date" class="form-control" required max="">
-        </div>
-        <div class="col-md-2">
-          <label for="mood" class="form-label">Hangulat (1-10)</label>
-          <input type="number" id="mood" class="form-control" min="1" max="10" required>
-        </div>
-        <div class="col-md-2">
-          <label for="weather" class="form-label">Időjárás</label>
-          <select id="weather" class="form-select">
-            <option value="">Válassz...</option>
-            <option>Napos</option><option>Felhős</option><option>Esős</option><option>Szeles</option><option>Havas</option>
-          </select>
-        </div>
-        <div class="col-md-2">
-          <label for="sleep_quality" class="form-label">Alvás</label>
-          <select id="sleep_quality" class="form-select">
-            <option value="">Válassz...</option>
-            <option>Nagyon rossz</option><option>Rossz</option><option>Közepes</option><option>Jó</option><option>Kiváló</option>
-          </select>
-        </div>
-        <div class="col-md-2">
-          <label for="activity" class="form-label">Tevékenység</label>
-          <select id="activity" class="form-select">
-            <option value="">Válassz...</option>
-            <option>Munka</option><option>Tanulás</option><option>Pihenés</option><option>Sport</option><option>Szórakozás</option><option>Egyéb</option>
-          </select>
-        </div>
-        <div class="col-md-2">
-          <label for="health_action" class="form-label">Egészség</label>
-          <select id="health_action" class="form-select">
-            <option value="">Válassz...</option>
-            <option>Mozgás</option><option>Egészséges étkezés</option><option>Pihenés</option><option>Semmi</option>
-          </select>
-        </div>
-        <div class="col-md-2">
-          <label for="score" class="form-label">Napi pont (1-10)</label>
-          <input type="number" id="score" class="form-control" min="1" max="10">
-        </div>
-        <div class="col-12">
-          <label for="note" class="form-label">Megjegyzés</label>
-          <textarea id="note" class="form-control" rows="2" maxlength="1000"></textarea>
-        </div>
-        <div class="col-12 text-end">
-          <button type="submit" class="btn btn-success mt-3">Mentés</button>
-        </div>
+        <button id="logoutBtn" class="btn btn-danger">Kijelentkezés</button>
+      </div>   
       </div>
-    </form>
-  </div>
 
-  <div class="card p-4 shadow-sm">
-    <h3 class="mb-3">Korábbi bejegyzések <i class="bi bi-clock-history"></i></h3>
-    <div class="table-responsive">
-      <table class="table table-striped align-middle">
-        <thead>
-          <tr>
-            <th>Dátum</th><th>Hangulat</th><th>Időjárás</th><th>Tevékenység</th><th>Alvás</th><th>Pont</th><th>Megjegyzés</th><th></th>
-          </tr>
-        </thead>
-        <tbody id="entriesTableBody">
-          <tr><td colspan="8" class="text-center text-muted">Betöltés...</td></tr>
-        </tbody>
-      </table>
+    <div id="messageBox" class="mb-4"></div>
+
+    <div class="card p-4 mb-4 shadow-sm" id="quoteCard" style="display:none;">
+      <blockquote class="blockquote mb-0 text-center">
+        <p id="quoteText" class="fs-5 fw-semibold"></p>
+        <footer id="quoteAuthor">- author -</footer>
+      </blockquote>
     </div>
-  </div>
+
+    <div class="card p-4 mb-4 shadow-sm">
+      <h3 class="mb-3">Új bejegyzés hozzáadása <i class="bi bi-plus-circle"></i></h3>
+      
+      <form id="entryForm">
+        <div class="row g-3">
+          <div class="col-md-3">
+            <label for="date" class="form-label">Dátum</label>
+            <input type="date" id="date" class="form-control" required max="">
+          </div>
+          <div class="col-md-2">
+            <label for="mood" class="form-label">Hangulat (1-10)</label>
+            <input type="number" id="mood" class="form-control" min="1" max="10" required>
+          </div>
+          <div class="col-md-2">
+            <label for="weather" class="form-label">Időjárás</label>
+            <select id="weather" class="form-select">
+              <option value="">Válassz...</option>
+              <option>Napos</option><option>Felhős</option><option>Esős</option><option>Szeles</option><option>Havas</option>
+            </select>
+          </div>
+          <div class="col-md-2">
+            <label for="sleep_quality" class="form-label">Alvás</label>
+            <select id="sleep_quality" class="form-select">
+              <option value="">Válassz...</option>
+              <option>Nagyon rossz</option><option>Rossz</option><option>Közepes</option><option>Jó</option><option>Kiváló</option>
+            </select>
+          </div>
+          <div class="col-md-2">
+            <label for="activity" class="form-label">Tevékenység</label>
+            <select id="activity" class="form-select">
+              <option value="">Válassz...</option>
+              <option>Munka</option><option>Tanulás</option><option>Pihenés</option><option>Sport</option><option>Szórakozás</option><option>Egyéb</option>
+            </select>
+          </div>
+          <div class="col-md-2">
+            <label for="health_action" class="form-label">Egészség</label>
+            <select id="health_action" class="form-select">
+              <option value="">Válassz...</option>
+              <option>Mozgás</option><option>Egészséges étkezés</option><option>Pihenés</option><option>Semmi</option>
+            </select>
+          </div>
+          <div class="col-md-2">
+            <label for="score" class="form-label">Napi pont (1-10)</label>
+            <input type="number" id="score" class="form-control" min="1" max="10">
+          </div>
+          <div class="col-12">
+            <label for="note" class="form-label">Megjegyzés</label>
+            <textarea id="note" class="form-control" rows="2" maxlength="1000"></textarea>
+          </div>
+          <div class="col-12 text-end">
+            <button type="submit" class="btn btn-success mt-3">Mentés</button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="card p-4 shadow-sm">
+      <h3 class="mb-3">Korábbi bejegyzések <i class="bi bi-clock-history"></i></h3>
+      <div class="table-responsive">
+        <table class="table table-striped align-middle">
+          <thead>
+            <tr>
+              <th>Dátum</th><th>Hangulat</th><th>Időjárás</th><th>Tevékenység</th><th>Alvás</th><th>Pont</th><th>Megjegyzés</th><th></th>
+            </tr>
+          </thead>
+          <tbody id="entriesTableBody">
+            <tr><td colspan="8" class="text-center text-muted">Betöltés...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
 </div>
 
 <script>
@@ -187,15 +125,16 @@ const token = localStorage.getItem('token');
 if (!token) window.location.href = "{{ route('login') }}";
 
 async function init() {
-document.addEventListener('DOMContentLoaded', () => {
-    const today = new Date().toISOString().split('T')[0];
-    document.getElementById('date').setAttribute('max', today);
-});
+  document.addEventListener('DOMContentLoaded', () => {
+      const today = new Date().toISOString().split('T')[0];
+      document.getElementById('date').setAttribute('max', today);
+  });
 
   const messageBox = document.getElementById('messageBox');
 
   function showMessage(message, type = 'danger') {
-    messageBox.innerHTML = `<div class="alert alert-${type}" role="alert">${message}</div>`;
+    // Az alert osztály mellé tehetünk shadow-t is, hogy jobban elváljon
+    messageBox.innerHTML = `<div class="alert alert-${type} shadow-sm border-0" role="alert">${message}</div>`;
     setTimeout(() => messageBox.innerHTML = '', 5000);
   }
 
@@ -204,7 +143,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const res = await fetch('/api/user', { headers: { 'Authorization': 'Bearer ' + token } });
       if (!res.ok) throw new Error('Unauthorized');
       const user = await res.json();
-      document.getElementById('userGreeting').innerHTML = `Szia, ${user.name || 'Felhasználó'}! <i class="bi bi-emoji-smile"></i>`;
+      document.getElementById('userGreeting').innerHTML = `Szia, ${user.name || 'Felhasználó'}!`;
       document.getElementById('userEmail').innerText = user.email;
     } catch {
       localStorage.removeItem('token');
@@ -229,16 +168,32 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
     entries.forEach(entry => {
+      const dateObj = new Date(entry.date);
+      const formattedDate = dateObj.toLocaleDateString('hu-HU', { 
+          year: 'numeric', 
+          month: 'short', 
+          day: 'numeric' 
+      });
+
       const tr = document.createElement('tr');
       tr.innerHTML = `
-        <td>${entry.date}</td>
+        <td style="font-weight: 500; color: #3b82f6;">${formattedDate}</td>
         <td>${entry.mood ?? '-'}</td>
         <td>${entry.weather ?? '-'}</td>
         <td>${entry.activity ?? '-'}</td>
         <td>${entry.sleep_quality ?? '-'}</td>
         <td>${entry.score ?? '-'}</td>
-        <td>${entry.note ?? ''}</td>
-        <td><button class="btn btn-sm btn-danger" onclick="deleteEntry(${entry.id})">🗑</button></td>
+        <td class="text-truncate" style="max-width: 150px;">${entry.note ?? ''}</td>
+        <td>
+            <div class="btn-group" role="group">
+                <a href="/naplo/${entry.id}" class="btn btn-sm btn-primary me-1" title="Megtekintés">
+                    <i class="bi bi-eye"></i>
+                </a>
+                <button class="btn btn-sm btn-danger" onclick="deleteEntry(${entry.id})" title="Törlés">
+                    <i class="bi bi-trash"></i>
+                </button>
+            </div>
+        </td>
       `;
       tbody.appendChild(tr);
     });
@@ -268,6 +223,8 @@ document.addEventListener('DOMContentLoaded', () => {
       await loadEntries();
       await loadQuote();
       showMessage('Sikeres mentés!', 'success');
+      // Felgörgetünk az üzenethez, hogy biztosan látszódjon
+      document.getElementById('messageBox').scrollIntoView({ behavior: 'smooth', block: 'center' });
     } catch { showMessage('Hiba a mentés során'); }
   });
 
