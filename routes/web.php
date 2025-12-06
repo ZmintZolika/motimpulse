@@ -30,6 +30,6 @@ Route::get('/teszt-token', function () {
 });
 
 Route::get('/', function () {
-    return view('hello');
+    return view('home');
 });
 
