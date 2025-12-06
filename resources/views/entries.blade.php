@@ -162,47 +162,58 @@ async function init() {
     window.location.reload();
   });
 
-  async function loadEntries() {
-    const res = await fetch('/api/entries', { headers: { 'Authorization': 'Bearer ' + token, 'Accept': 'application/json' } });
-    const tbody = document.getElementById('entriesTableBody');
-    tbody.innerHTML = '';
-    if (!res.ok) return showMessage('Nem sikerült betölteni a bejegyzéseket');
-    const entries = await res.json();
-    if (!entries.length) {
-      tbody.innerHTML = '<tr><td colspan="8" class="text-center text-muted">Még nincs bejegyzés.</td></tr>';
-      return;
-    }
-    entries.forEach(entry => {
-      const dateObj = new Date(entry.date);
-      const formattedDate = dateObj.toLocaleDateString('hu-HU', { 
-          year: 'numeric', 
-          month: 'short', 
-          day: 'numeric' 
-      });
+async function loadEntries() {
+  const res = await fetch('/api/entries', { 
+    headers: { 
+      'Authorization': 'Bearer ' + token, 
+      'Accept': 'application/json' 
+    } 
+  });
 
-      const tr = document.createElement('tr');
-      tr.innerHTML = `
-        <td style="font-weight: 500; color: #3b82f6;">${formattedDate}</td>
-        <td>${entry.mood ?? '-'}</td>
-        <td>${entry.weather ?? '-'}</td>
-        <td>${entry.activities ?? '-'}</td>
-        <td>${entry.sleep_quality ?? '-'}</td>
-        <td>${entry.score ?? '-'}</td>
-        <td class="text-truncate" style="max-width: 150px;">${entry.note ?? ''}</td>
-        <td>
-            <div class="btn-group" role="group">
-                <a href="/naplo/${entry.id}" class="btn btn-sm btn-primary me-1" title="Megtekintés">
-                    <i class="bi bi-eye"></i>
-                </a>
-                <button class="btn btn-sm btn-danger" onclick="deleteEntry(${entry.id})" title="Törlés">
-                    <i class="bi bi-trash"></i>
-                </button>
-            </div>
-        </td>
-      `;
-      tbody.appendChild(tr);
-    });
+  const tbody = document.getElementById('entriesTableBody');
+  tbody.innerHTML = '';
+
+  if (!res.ok) {
+    return showMessage('Nem sikerült betölteni a bejegyzéseket');
   }
+
+  const json = await res.json();        // { entries: [...] }
+  const entries = json.entries || [];   // innen vesszük ki a tömböt
+
+  if (!entries.length) {
+    tbody.innerHTML = '<tr><td colspan="8" class="text-center text-muted">Még nincs bejegyzés.</td></tr>';
+    return;
+  }
+
+  entries.forEach(entry => {
+    const dateObj = new Date(entry.created_at);
+    const formattedDate = dateObj.toLocaleDateString('hu-HU', { 
+      year: 'numeric', 
+      month: 'short', 
+      day: 'numeric' 
+    });
+
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td style="font-weight: 500; color: #3b82f6;">${formattedDate}</td>
+      <td>${entry.mood ?? '-'}</td>
+      <td>${entry.weather ?? '-'}</td>
+      <td>${entry.activities ?? '-'}</td>
+      <td>${entry.sleep_quality ?? '-'}</td>
+      <td>${entry.score ?? '-'}</td>
+      <td class="text-truncate" style="max-width: 150px;">${entry.note ?? ''}</td>
+      <td>
+        <div class="btn-group" role="group">
+          <button class="btn btn-sm btn-danger" onclick="deleteEntry(${entry.entry_id})" title="Törlés">
+            <i class="bi bi-trash"></i>
+          </button>
+        </div>
+      </td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
 
 document.getElementById('entryForm').addEventListener('submit', async (e) => {
   e.preventDefault();
