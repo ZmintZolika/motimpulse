@@ -68,7 +68,7 @@
 
         if (response.ok && data.token) {
           localStorage.setItem('token', data.token);
-          window.location.href = "{{ route('day-entries') }}";
+          window.location.href = "{{ route('entries') }}";
         } else {
           alert(data.message || (data.errors ? Object.values(data.errors).flat().join("\n") : 'Hiba történt a regisztráció során.'));
         }

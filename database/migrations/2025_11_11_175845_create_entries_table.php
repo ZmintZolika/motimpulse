@@ -19,7 +19,7 @@ return new class extends Migration
         $table->enum('weather', ['Napos', 'Felhős', 'Esős', 'Szeles', 'Havas']);
         $table->enum('sleep_quality', ['Nagyon rossz', 'Rossz', 'Közepes', 'Jó', 'Kiváló']);
         $table->enum('activities', ['Munka', 'Tanulás', 'Pihenés', 'Sport', 'Szórakozás', 'Egyéb']);
-        $table->enum('health_action', ['Mozgás', 'Egészséges táplálkozás', 'Pihenés', 'Semmi']);
+        $table->enum('health_action', ['Mozgás', 'Egészséges étkezés', 'Pihenés', 'Semmi']);
         $table->text('note')->nullable();
         $table->boolean('is_deleted')->default(false);
         $table->timestamp('created_at')->nullable();
