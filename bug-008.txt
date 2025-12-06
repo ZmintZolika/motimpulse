@@ -1,0 +1,39 @@
+Azonosító: BUG-009
+
+Összefoglalás: Inkonzisztencia a 'health_action' enum értékeiben a Controller és a Migráció között
+
+Súlyosság: Magas
+
+Prioritás: Magas
+
+Státusz: Nyitott
+
+Komponens: Backend / Validáció & Adatbázis
+
+Környezet: Helyi fejlesztői környezet (Laravel)
+
+Előfeltételek: Új bejegyzés mentése, ahol a 'health_action' értéke az étkezéssel kapcsolatos.
+
+Lépések:
+
+1. Megnyitni az 'app/Http/Controllers/Api/EntryController.php' fájlt.
+2. Megnyitni a 'database/migrations/2025_11_11_175845_create_entries_table.php' fájlt.
+3. Összehasonlítani a 'health_action' mező engedélyezett értékeit (enum lista).
+
+Elvárt működés: 
+A két listának karakterre pontosan egyeznie kell.
+
+Tényleges működés: 
+Eltérés van a szövegezésben:
+- Controller (Validáció): 'Egészséges étkezés'
+- Migráció (Adatbázis): 'Egészséges táplálkozás'
+
+Következmény: 
+Ha a frontend a migráció szerinti értéket küldi, a Controller validációs hibát dob. Ha a Controller szerintit küldi, az adatbázis dob SQL hibát (Data truncated / Invalid value).
+
+Javaslat: 
+Egységesíteni kell a kifejezést mindkét helyen (és a Frontend HTML űrlapjában is!). Javasolt a 'Egészséges táplálkozás' használata mindenhol.
+
+Felelős: Nincs hozzárendelve
+
+Létrehozva: 2025.12.06.
