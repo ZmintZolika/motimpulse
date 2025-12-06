@@ -1,0 +1,34 @@
+Azonosító: BUG-005
+
+Összefoglalás: Új bejegyzés mentésekor az API 302 Redirect-et ad JSON válasz helyett
+
+Súlyosság: Magas
+
+Prioritás: Magas
+
+Státusz: Nyitott
+
+Komponens: Frontend / API (Entry létrehozás)
+
+Környezet: Helyi fejlesztői környezet (Localhost) / Böngésző
+
+Előfeltételek: A felhasználó be van jelentkezve és a Napló (Dashboard) oldalon tartózkodik.
+
+Lépések:
+
+1. Fejlesztői eszközök (F12) megnyitása, Network fül.
+2. Új bejegyzés űrlap kitöltése (Hangulat, Szöveg stb.).
+3. "Mentés" gomb megnyomása.
+4. A hálózati válasz vizsgálata.
+
+Elvárt működés: A szerver 201 Created (siker) vagy 422 Unprocessable Entity (validációs hiba) JSON választ küld, amit a Frontend feldolgoz és frissíti a listát.
+
+Tényleges működés: A szerver 302 Found (Redirect) státusszal válaszol, valószínűleg visszairányítva a felhasználót ugyanerre az oldalra. Emiatt a JavaScript nem kap adatot, a lista nem frissül, vagy hibaüzenet jelenik meg.
+
+Oka: A Frontend JavaScript fetch hívásából hiányzik az 'Accept: application/json' fejléc, ezért a Laravel HTML választ küld API válasz helyett.
+
+Javaslat: A bejegyzést mentő JavaScript függvényben (fetch) pótolni kell a hiányzó header sort.
+
+Felelős: Nincs hozzárendelve
+
+Létrehozva: 2025.12.06.
