@@ -6,7 +6,17 @@ Súlyosság: Kritikus
 
 Prioritás: Magas
 
-Státusz: Nyitott
+Státusz: Javítva
+
+JAVÍTÁS RÉSZLETEI ==================================================
+
+Javította: Bodvánszki Zoltán
+
+Dátum: 2025.12.06.
+
+Megoldás leírása: A routes/web.php fájlban javításra került az útvonal definíció. A hibás, nem létező "hello" nézetre mutató hivatkozás helyett most már a létező "home"-ra mutató hivatkozás van.
+
+
 
 Komponens: Backend / Routing
 
