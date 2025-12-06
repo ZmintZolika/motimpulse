@@ -1,0 +1,31 @@
+Azonosító: BUG-004
+
+Összefoglalás: A Frontend hibás (nem létező) végpontot hív meg a bejegyzések listázásakor
+
+Súlyosság: Magas
+
+Prioritás: Magas
+
+Státusz: Nyitott
+
+Komponens: Frontend / API Hívások (Dashboard)
+
+Környezet: Helyi fejlesztői környezet (Localhost) / Böngésző
+
+Előfeltételek: A felhasználó be van jelentkezve és a Napló (Dashboard) oldalra lép.
+
+Lépések:
+
+1. Fejlesztői eszközök (F12) megnyitása, Network fül kiválasztása.
+2. A Napló oldal betöltése vagy frissítése.
+3. A hálózati kérések listájának vizsgálata.
+
+Elvárt működés: A Frontend a validált GET /api/entries végpontot hívja meg a bejegyzések lekéréséhez.
+
+Tényleges működés: A Frontend a GET /api/day-entries végpontot próbálja elérni, amely nem létezik a backend oldalon, így a lista nem töltődik be.
+
+Oka: Eltérés a Backend API útvonalai és a Frontend  hívása között (a Frontend kód a régi 'day-entries' címet tartalmazza).
+
+Felelős: Nincs hozzárendelve
+
+Létrehozva: 2025.12.06.
