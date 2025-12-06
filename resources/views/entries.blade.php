@@ -130,10 +130,17 @@ const token = localStorage.getItem('token');
 if (!token) window.location.href = "{{ route('login') }}";
 
 async function init() {
-  document.addEventListener('DOMContentLoaded', () => {
-      const today = new Date().toISOString().split('T')[0];
-      document.getElementById('date').setAttribute('max', today);
+    document.addEventListener('DOMContentLoaded', () => {
+    const now = new Date();
+    const year  = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day   = String(now.getDate()).padStart(2, '0');
+    const today = `${year}-${month}-${day}`; 
+
+    const dateInput = document.getElementById('date');
+    dateInput.setAttribute('max', today);
   });
+
 
   const messageBox = document.getElementById('messageBox');
 
