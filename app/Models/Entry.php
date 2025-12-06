@@ -20,6 +20,7 @@ class Entry extends Model
     'sleep_quality',
     'activities',
     'health_action',
+    'score',
     'note',
     'is_deleted'
 ];

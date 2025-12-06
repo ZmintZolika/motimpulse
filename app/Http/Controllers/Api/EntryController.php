@@ -41,6 +41,7 @@ class EntryController extends Controller
             'sleep_quality' => ['required', Rule::in(['Nagyon rossz', 'Rossz', 'Közepes', 'Jó', 'Kiváló'])],
             'activities' => ['required', Rule::in(['Munka', 'Tanulás', 'Pihenés', 'Sport', 'Szórakozás', 'Egyéb'])],
             'health_action' => ['required', Rule::in(['Mozgás', 'Egészséges étkezés', 'Pihenés', 'Semmi'])],
+            'score'         => ['nullable', 'integer', 'min:1', 'max:10'],
             'note' => ['nullable', 'string', 'max:1000'],
         ]);
 
@@ -64,6 +65,7 @@ class EntryController extends Controller
             'sleep_quality' => $validated['sleep_quality'],
             'activities' => $validated['activities'],
             'health_action' => $validated['health_action'],
+            'score'         => $validated['score'] ?? null,
             'note' => $validated['note'] ?? null,
             'is_deleted' => false,
         ]);
@@ -126,6 +128,7 @@ class EntryController extends Controller
             'sleep_quality' => ['sometimes', Rule::in(['Nagyon rossz', 'Rossz', 'Közepes', 'Jó', 'Kiváló'])],
             'activities' => ['sometimes', Rule::in(['Munka', 'Tanulás', 'Pihenés', 'Sport', 'Szórakozás', 'Egyéb'])],
             'health_action' => ['sometimes', Rule::in(['Mozgás', 'Egészséges étkezés', 'Pihenés', 'Semmi'])],
+            'score' => ['sometimes', 'nullable', 'integer', 'min:1', 'max:10'],
             'note' => ['nullable', 'string', 'max:1000'],
         ]);
 
