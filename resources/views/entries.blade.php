@@ -287,16 +287,21 @@ document.getElementById('entryForm').addEventListener('submit', async (e) => {
 
   async function loadQuote() {
     const res = await fetch('/api/quotes/random', {
-    headers: { 
-      'Accept': 'application/json'}});
+      headers: { 
+        'Authorization': 'Bearer ' + token,
+        'Accept': 'application/json'
+      }
+    });
+
     if (!res.ok) return;
     const quote = await res.json();
-    if (quote && quote.text) {
-      document.getElementById('quoteText').innerText = `"${quote.text}"`;
+    if (quote && quote.quote_text) {
+      document.getElementById('quoteText').innerText = `"${quote.quote_text}"`;
       document.getElementById('quoteAuthor').innerText = quote.author ? `– ${quote.author}` : '';
       document.getElementById('quoteCard').style.display = 'block';
     }
   }
+
 
   await loadUser();
   await loadEntries();
