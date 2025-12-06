@@ -12,7 +12,7 @@ Route::get('/', function () {
 Route::view('/', 'home')->name('home');
 Route::view('/login', 'login')->name('login');
 Route::view('/register', 'register')->name('register');
-Route::view('/naplo', 'day-entries')->name('day-entries');
+Route::view('/naplo', 'entries')->name('entries');
 
 //---------------------------------------------------------
 

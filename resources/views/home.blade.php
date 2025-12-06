@@ -39,7 +39,7 @@
         <p class="subtitle">Örülünk, hogy visszatértél az alkalmazásba.</p>
         
         <div class="d-grid gap-3 mt-4">
-            <a href="{{ route('day-entries') }}" class="btn btn-custom-primary btn-lg">
+            <a href="{{ route('entries') }}" class="btn btn-custom-primary btn-lg">
                 <i class="fas fa-book-open"></i> Napi bejegyzéseim
             </a>
             
