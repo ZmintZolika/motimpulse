@@ -1,0 +1,34 @@
+Azonosító: BUG-007
+
+Összefoglalás: Mezőnév eltérés: A Frontend 'activity' kulcsot küld, de a Backend 'activities'-t vár
+
+Súlyosság: Magas
+
+Prioritás: Magas
+
+Státusz: Nyitott
+
+Komponens: Frontend / Adatstruktúra (Entry Payload)
+
+Környezet: Helyi fejlesztői környezet (Localhost) / Böngésző
+
+Előfeltételek: A Napló (Dashboard) oldal megnyitva, új bejegyzés mentése.
+
+Lépések:
+
+1. A böngészőben a fejlesztői eszközök (F12) megnyitása, Network fül.
+2. Új bejegyzés kitöltése (tevékenység kiválasztása).
+3. "Mentés" gomb megnyomása.
+4. A küldött adatcsomag (Payload) vizsgálata.
+
+Elvárt működés: A Frontendnek pontosan az adatbázis sémában definiált 'activities' (többesszám) kulcsot kell használnia az adatküldéshez.
+
+Tényleges működés: A Frontend az 'activity' (egyes szám) kulcsot használja a JSON objektumban. Emiatt a Backend nem ismeri fel a mezőt, validációs hibát dob ("The activities field is required") vagy nem menti el az adatot.
+
+Oka: Inkonzisztencia az adatbázis oszlopneve (activities) és a Frontend űrlapmező ID-ja/neve (activity) között.
+
+Javaslat: A Frontend kódban (HTML ID és JavaScript objektum készítésekor) átnevezni a kulcsot 'activities'-re.
+
+Felelős: Nincs hozzárendelve
+
+Létrehozva: 2025.12.06.
