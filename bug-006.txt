@@ -1,0 +1,33 @@
+Azonosító: BUG-006
+
+Összefoglalás: A hangulat (mood) mező elavult típusú adatot küld az elvárt Enum szöveg helyett
+
+Súlyosság: Magas
+
+Prioritás: Magas
+
+Státusz: Nyitott
+
+Komponens: Frontend / HTML (Entry űrlap)
+
+Környezet: Helyi fejlesztői környezet (Localhost) / Böngésző
+
+Előfeltételek: A Napló (Dashboard) oldal megnyitva, új bejegyzés létrehozása folyamatban.
+
+Lépések:
+
+1. A böngészőben a fejlesztői eszközök (F12) megnyitása.
+2. A "Hangulat" (mood) legördülő menü HTML kódjának vizsgálata (Inspect Element).
+3. Vagy: Megkísérelni a mentést és figyelni a küldött adatot (Payload).
+
+Elvárt működés: A Frontend a backend által definiált Enum értékeket küldje: 'Lehangolt', 'Kiegyensúlyozott', 'Vidám'.
+
+Tényleges működés: A HTML űrlap még a régi adatstruktúrát követi (1-10). Emiatt a backend validációja (Rule::in) elutasítja az adatot.
+
+Oka: Az adatbázis migráció során a backend átállt Enum-ra, de a Frontend HTML kódja nem lett frissítve.
+
+Javaslat: A HTML <select> opcióit cserélni kell a szöveges értékekre (value="Vidám" stb.).
+
+Felelős: Nincs hozzárendelve
+
+Létrehozva: 2025.12.06.
