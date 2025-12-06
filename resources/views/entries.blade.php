@@ -248,18 +248,27 @@ document.getElementById('entryForm').addEventListener('submit', async (e) => {
       return;
     }
 
-    showMessage('Sikeres mentés!', 'success');
-    document.getElementById('entryForm').reset();
-    await loadEntries();
-    await loadQuote();
-    document.getElementById('messageBox').scrollIntoView({ behavior: 'smooth', block: 'center' });
-
 
     showMessage('Sikeres mentés!', 'success');
     document.getElementById('entryForm').reset();
     await loadEntries();
-    await loadQuote();
-    document.getElementById('messageBox').scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+    if (data.entry && data.entry.quote) {
+      document.getElementById('quoteText').innerText = `"${data.entry.quote.quote_text}"`;
+      document.getElementById('quoteAuthor').innerText = data.entry.quote.author 
+        ? `– ${data.entry.quote.author}` 
+        : '';
+      document.getElementById('quoteCard').style.display = 'block';
+    } else {
+      await loadQuote(); // fallback ha nincs hangulathoz illő idézet
+    }
+
+    document.getElementById('messageBox').scrollIntoView({ 
+      behavior: 'smooth', 
+      block: 'center' 
+    });
+
+
 
   } catch (err) {
     console.error(err);
