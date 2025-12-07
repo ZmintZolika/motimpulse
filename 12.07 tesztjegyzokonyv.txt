@@ -1,0 +1,43 @@
+NAPI ÖSSZESÍTETT TESZT JEGYZŐKÖNYV (DAILY MASTER REPORT)
+============================================================
+Dátum: 2025-12-07
+Tesztelő: Szerencsés Viktor
+Környezet: Helyi fejlesztői környezet (Localhost)
+Verzió: Main ág (Napi záró állapot)
+Státusz: RÉSZBEN SIKERES / TOVÁBBFEJLESZTÉS SZÜKSÉGES
+============================================================
+
+I. VEZETŐI ÖSSZEFOGLALÓ
+------------------------------------------------------------
+A mai tesztelési nap végére a Napló (Dashboard) modul alapvető technikai hibáit (végpontok, adatstruktúra) sikeresen elhárítottuk. A rendszer képes bejegyzések létrehozására és listázására.
+A Hitelesítési (Auth) folyamatokban azonban továbbra is kritikus hiba tapasztalható (302 Redirect), valamint a rendszertervhez képest három új funkcionális/logikai hiányosság került rögzítésre.
+
+II. JAVÍTOTT ÉS LEZÁRT HIBÁK (RESOLVED)
+------------------------------------------------------------
+A fejlesztés során az alábbi hibák sikeresen javításra kerültek:
+
+1. BUG-004 (Dashboard): Javítva a rossz végpont hívása (day-entries -> entries).
+2. BUG-005 (Entry Mentés): Megszűnt a 302-es hiba mentéskor (Accept header pótolva).
+3. BUG-006 (Mood): Javítva a hangulat mező adattípusa (Szám -> Enum).
+4. BUG-007 (Activity): Javítva a mezőnév eltérése (activity -> activities).
+5. BUG-008 (Health Action): Javítva a 'táplálkozás' vs 'étkezés' elírás az Enumban.
+
+III. FENNÁLLÓ ÉS ÚJONNAN RÖGZÍTETT HIBÁK (OPEN)
+------------------------------------------------------------
+A következő hibák és hiányosságok további javítást igényelnek:
+
+Technikai hibák (Auth):
+1. BUG-003 (Regisztráció): A hiba FENNÁLL. Validációs hiba esetén 302 Redirect érkezik, nincs hibaüzenet.
+2. BUG-009 (Login): ÚJONNAN FELVÉVE. Hibás belépés esetén szintén 302 Redirect érkezik JSON válasz helyett.
+
+Funkcionális/Logikai hiányosságok:
+3. BUG-010 (Logika): ÚJONNAN FELVÉVE. Az idézet (quote_id) nem mentődik el az adatbázisba.
+4. BUG-011 (Funkció): ÚJONNAN FELVÉVE. Hiányzik a szerkesztés (Edit) lehetősége.
+5. BUG-012 (Funkció): ÚJONNAN FELVÉVE. Nem lehetséges visszamenőleges dátumra naplózni.
+
+============================================================
+KÖVETKEZŐ LÉPÉSEK:
+A BUG-004...008 lezárása a verziókövetésben megtörtént.
+A holnapi nap feladata a BUG-003 és 009 (Auth) javítása,
+valamint a hiányzó funkciók (10-12) implementálása.
+============================================================
