@@ -35,6 +35,7 @@
       <div class="mb-3 text-start">
         <label for="password" class="form-label">Jelszó</label>
         <input type="password" class="form-control" id="password" required>
+        <small class="form-text text-muted">Minimum 8 karakter szükséges.</small>
       </div>
 
       <div class="mb-3 text-start">
@@ -61,7 +62,11 @@
       try {
         const response = await fetch('/api/register', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: { 
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+
           body: JSON.stringify({ name, email, password, password_confirmation })
         });
         const data = await response.json();
@@ -70,8 +75,20 @@
           localStorage.setItem('token', data.token);
           window.location.href = "{{ route('entries') }}";
         } else {
-          alert(data.message || (data.errors ? Object.values(data.errors).flat().join("\n") : 'Hiba történt a regisztráció során.'));
+          // Validációs hibák megjelenítése
+          let errorMsg = '';
+          if (data.errors) {
+            for (let field in data.errors) {
+              errorMsg += data.errors[field].join('\n') + '\n';
+            }
+          } else if (data.message) {
+            errorMsg = data.message;
+          } else {
+            errorMsg = 'Hiba történt a regisztráció során.';
+          }
+          alert(errorMsg);
         }
+
       } catch (err) {
         console.error(err);
         alert('Hiba történt a regisztráció során.');
