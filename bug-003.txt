@@ -1,31 +1,41 @@
 Azonosító: BUG-003
 
-Összefoglalás: Hiányzó tájékoztatás a jelszó minimális hosszáról (min. 8 karakter)
+Összefoglalás: Hiányzó jelszókövetelmény-tájékoztatás és hibás API válasz (302 Redirect) validációs hiba esetén
 
-Súlyosság: Közepes
+Súlyosság: Magas
 
-Prioritás: Közepes
+Prioritás: Magas
 
 Státusz: Nyitott
 
-Komponens: Frontend / UX (Regisztráció)
+Komponens: Frontend (Regisztráció) & API Konfiguráció
 
-Környezet: Helyi fejlesztői környezet (Localhost) / Postman
+Környezet: Helyi fejlesztői környezet (Localhost) / Böngésző
 
-Előfeltételek: A szerver fut és elérhető a /api/register végpont.
+Előfeltételek: A regisztrációs oldal (/register) megnyitása.
 
 Lépések:
+1. A regisztrációs űrlapon a jelszó mező ellenőrzése (segédszöveg keresése).
+2. Regisztráció megkísérlése rövid (pl. 3 karakteres) jelszóval.
+3. A Fejlesztői Eszközök (F12) Network fülén a válasz vizsgálata.
 
-1. A regisztrációs felület (vagy API dokumentáció) megnyitása.
-2. A jelszó mezőhöz tartozó segédszövegek megvizsgálása.
-3. Regisztráció megkísérlése 8 karakternél rövidebb jelszóval.
+Elvárt működés:
+1. A felületen előzetesen szerepeljen: "Min. 8 karakter".
+2. Hibás kitöltéskor az API 422 Unprocessable Entity (JSON) választ küldjön a konkrét hibaüzenettel.
+3. A Frontend jelenítse meg a kapott hibaüzenetet: "A jelszó túl rövid".
 
-Elvárt működés: A felületen egyértelmű szöveges tájékoztatás (pl. "min. 8 karakter") jelenjen meg a felhasználó számára még az adatküldés előtt.
+Tényleges működés:
+1. Nincs előzetes tájékoztatás a jelszó hosszáról.
+2. Validációs hiba esetén a szerver 302 Found (Redirect) választ küld JSON helyett.
+3. A Frontend emiatt nem tudja feldolgozni a választ, és csak egy általános "Hiba történt a regisztráció során" üzenetet jelenít meg.
 
-Tényleges működés: Nincs semmilyen utalás a jelszóhossz követelményére, a rendszer csak a sikertelen küldés után (vagy API hibaüzenetben) jelez, ami rontja a felhasználói élményt.
+Oka:
+A Frontend kéréséből hiányzik az 'Accept': 'application/json' fejléc, ezért a Laravel HTML választ (átirányítást) küld.
 
-Oka: A frontend felületen vagy a dokumentációban nincs megjelenítve a backend oldali validációs szabály.
+Javaslat:
+1. UI: Szöveges tájékoztatás pótlása a mező alatt.
+2. Kód: A fetch hívás headerjének kiegészítése az 'Accept': 'application/json' sorral.
 
 Felelős: Nincs hozzárendelve
 
-Létrehozva: 2025.12.01.
+Frissítve: 2025.12.07.
