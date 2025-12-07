@@ -46,15 +46,21 @@ class EntryController extends Controller
         ]);
 
         // Quote generálás
-        if (isset($validated['mood'])) {
-            // Ha mood megadva → mood szerint random quote
+        if (!empty($validated['mood'])) {
+            // Ha mood megadva ÉS NEM ÜRES → mood szerint random quote
             $quote = Quote::where('quote_category', $validated['mood'])
                 ->inRandomOrder()
                 ->first();
+            
+            // Ha mood szerint nem talált, fallback bármilyen random idézetre
+            if (!$quote) {
+                $quote = Quote::inRandomOrder()->first();
+            }
         } else {
-            // Ha mood NINCS megadva → random quote az egész táblából
+            // Ha mood NINCS megadva vagy ÜRES → random quote az egész táblából
             $quote = Quote::inRandomOrder()->first();
         }
+
 
         // Entry létrehozása
         $entry = Entry::create([
