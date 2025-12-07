@@ -1,0 +1,32 @@
+Azonosító: BUG-011
+
+Összefoglalás: Hiányzó szerkesztés (Edit) funkció a bejegyzéseknél
+
+Súlyosság: Közepes (Funkcióhiány)
+
+Prioritás: Közepes
+
+Státusz: Nyitott
+
+Komponens: Frontend & Backend
+
+Környezet: Böngésző / Felület
+
+Előfeltételek: Bejelentkezés, létező bejegyzések a listában.
+
+Lépések:
+1. A Napló (Dashboard) oldal megnyitása.
+2. Keresni egy "Szerkesztés" (ceruza) ikont vagy gombot a bejegyzések mellett.
+
+Elvárt működés: 
+A felhasználónak lehetősége legyen módosítani a korábbi bejegyzéseit (pl. elírás javítása, hangulat változása). Kell egy gomb és egy szerkesztő felület (PUT végpont).
+
+Tényleges működés: 
+Nincs lehetőség a bejegyzések utólagos módosítására a felületen.
+
+Oka: 
+A funkció nem lett implementálva (hiányzik a Frontend gomb, az űrlap és a Backend PUT /api/entries/{id} végpont logikája).
+
+Felelős: Nincs hozzárendelve
+
+Létrehozva: 2025.12.07.
