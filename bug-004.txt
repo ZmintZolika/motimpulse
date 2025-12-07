@@ -6,7 +6,12 @@ Súlyosság: Magas
 
 Prioritás: Magas
 
-Státusz: Nyitott
+Státusz: Javítva
+
+JAVÍTÁS RÉSZLETEI
+-----------------
+Megoldás: A frontend kódban a hívás URL-je javítva lett '/api/day-entries'-ről '/api/entries'-re.
+Ellenőrzés: A lista sikeresen betöltődik (200 OK).
 
 Komponens: Frontend / API Hívások (Dashboard)
 

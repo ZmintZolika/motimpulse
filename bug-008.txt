@@ -6,7 +6,12 @@ Súlyosság: Magas
 
 Prioritás: Magas
 
-Státusz: Nyitott
+Státusz: Javítva
+
+JAVÍTÁS RÉSZLETEI
+-----------------
+Megoldás: A Controller validációs szabályában és az adatbázisban egységesítésre került a kifejezés ("Egészséges táplálkozás").
+Ellenőrzés: Nincs többé csonkítási vagy validációs hiba.
 
 Komponens: Backend / Validáció & Adatbázis
 

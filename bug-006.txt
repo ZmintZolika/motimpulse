@@ -6,7 +6,12 @@ Súlyosság: Magas
 
 Prioritás: Magas
 
-Státusz: Nyitott
+Státusz: Javítva
+
+JAVÍTÁS RÉSZLETEI
+-----------------
+Megoldás: A HTML select mező értékei (value) cserélve lettek a backend által elvárt Enum stringekre (pl. "Vidám").
+Ellenőrzés: A validáció sikeres, az adat bekerül az adatbázisba.
 
 Komponens: Frontend / HTML (Entry űrlap)
 

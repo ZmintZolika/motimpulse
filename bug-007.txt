@@ -6,7 +6,13 @@ Súlyosság: Magas
 
 Prioritás: Magas
 
-Státusz: Nyitott
+Státusz: Javítva
+
+JAVÍTÁS RÉSZLETEI
+-----------------
+Megoldás: A frontend objektumban a kulcs átnevezésre került 'activity'-ről 'activities'-re (vagy fordítva, a backendhez igazítva).
+Ellenőrzés: A mezőnév egyezik, a backend feldolgozza az adatot
+
 
 Komponens: Frontend / Adatstruktúra (Entry Payload)
 

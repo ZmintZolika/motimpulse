@@ -6,7 +6,12 @@ Súlyosság: Magas
 
 Prioritás: Magas
 
-Státusz: Nyitott
+Státusz: Javítva
+
+JAVÍTÁS RÉSZLETEI
+-----------------
+Megoldás: A fetch hívás fejlécébe bekerült az 'Accept: application/json' sor.
+Ellenőrzés: A szerver most már JSON választ küld, a 302-es átirányítás megszűnt.
 
 Komponens: Frontend / API (Entry létrehozás)
 
