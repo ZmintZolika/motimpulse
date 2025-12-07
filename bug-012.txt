@@ -1,0 +1,33 @@
+Azonosító: BUG-012
+
+Összefoglalás: Nem lehet korábbi dátumra bejegyzést rögzíteni (mindig a mai napra ment)
+
+Súlyosság: Közepes
+
+Prioritás: Közepes
+
+Státusz: Nyitott
+
+Komponens: Backend & Frontend
+
+Környezet: Helyi fejlesztői környezet
+
+Előfeltételek: Új bejegyzés létrehozása.
+
+Lépések:
+1. Új bejegyzés űrlap megnyitása.
+2. Dátumválasztó mező keresése.
+3. Mentés után a dátum ellenőrzése.
+
+Elvárt működés: 
+A felhasználó kiválaszthasson egy dátumot (pl. "tegnap"), ha elfelejtette akkor rögzíteni a naplóját. A rendszer ezt a dátumot mentse el egy külön 'entry_date' mezőbe.
+
+Tényleges működés: 
+Nincs dátumválasztó a felületen. A backend automatikusan a szerver aktuális idejét (created_at timestamp) használja, így lehetetlen visszamenőlegesen naplózni.
+
+Oka: 
+Hiányzik az 'entry_date' oszlop az adatbázisból, a dátumválasztó a Frontendről, és a dátumkezelés a Backend logikából.
+
+Felelős: Nincs hozzárendelve
+
+Létrehozva: 2025.12.07.
