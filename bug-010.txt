@@ -1,0 +1,33 @@
+Azonosító: BUG-010
+
+Összefoglalás: A generált idézet (quote_id) nem mentődik el az adatbázisba a bejegyzés mellé
+
+Súlyosság: Magas
+
+Prioritás: Magas
+
+Státusz: Nyitott
+
+Komponens: Backend / Adatbázis Mentés
+
+Környezet: Helyi fejlesztői környezet (Laravel)
+
+Előfeltételek: Új bejegyzés létrehozása.
+
+Lépések:
+1. Új bejegyzés mentése a felületen.
+2. Az adatbázis 'entries' táblájának ellenőrzése (pl. Tinkerben vagy phpMyAdminban).
+3. A frissen létrejött sor 'quote_id' oszlopának vizsgálata.
+
+Elvárt működés: 
+A rendszer kiválaszt egy idézetet a hangulat alapján, és annak az ID-ját elmenti a bejegyzéshez, hogy később visszakövethető legyen (és listázáskor megjelenjen).
+
+Tényleges működés: 
+A 'quote_id' mező értéke NULL marad (vagy nem kerül kitöltésre), így frissítés után az idézet eltűnik vagy véletlenszerűen generálódik újra.
+
+Oka: 
+A Controller store metódusában hiányzik a logika, ami kiválasztja és hozzárendeli a quote_id-t a mentés előtt ($entry->quote_id = ...).
+
+Felelős: Nincs hozzárendelve
+
+Létrehozva: 2025.12.07.
