@@ -19,9 +19,16 @@
           padding-bottom: 2rem;
       }
       .container {
-          max-width: 900px;
+          max-width: 1200px;  /* Szélesebb, hogy elfér a táblázat */
+      }
+      
+      /* Táblázat cellák padding csökkentése */
+      .table-sm td, .table-sm th {
+          padding: 0.4rem 0.3rem;
+          font-size: 0.875rem;
       }
   </style>
+
 </head>
 <body class="bg-light">
 
@@ -111,19 +118,49 @@
     <div class="card p-4 shadow-sm">
       <h3 class="mb-3">Korábbi bejegyzések <i class="bi bi-clock-history"></i></h3>
       <div class="table-responsive">
-        <table class="table table-striped align-middle">
+        <table class="table table-striped align-middle table-sm" style="table-layout: fixed; width: 100%;">
+
           <thead>
             <tr>
-              <th>Dátum</th><th>Hangulat</th><th>Időjárás</th><th>Tevékenység</th><th>Alvás</th><th>Pont</th><th>Megjegyzés</th><th></th>
+              <th style="width: 9%;">Dátum</th>
+              <th style="width: 11%;">Hangulat</th>
+              <th style="width: 8%;">Időjárás</th>
+              <th style="width: 11%;">Tevékenység</th>
+              <th style="width: 8%;">Alvás</th>
+              <th style="width: 5%;">Pont</th>
+              <th style="width: 23%;">Idézet</th>
+              <th style="width: 18%;">Megjegyzés</th>
+              <th style="width: 7%;"></th>
             </tr>
           </thead>
           <tbody id="entriesTableBody">
-            <tr><td colspan="8" class="text-center text-muted">Betöltés...</td></tr>
+            <tr><td colspan="9" class="text-center text-muted">Betöltés...</td></tr>
           </tbody>
         </table>
       </div>
     </div>
 </div>
+
+<!-- Idézet Modal -->
+<div class="modal fade" id="quoteModal" tabindex="-1" aria-labelledby="quoteModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="quoteModalLabel">Napi idézet</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Bezárás"></button>
+      </div>
+      <div class="modal-body">
+        <blockquote class="blockquote text-center">
+          <p id="modalQuoteText" class="fs-5 fw-semibold mb-3"></p>
+          <footer id="modalQuoteAuthor" class="blockquote-footer"></footer>
+        </blockquote>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 
 <script>
 const token = localStorage.getItem('token');
@@ -188,7 +225,7 @@ async function loadEntries() {
   const entries = json.entries || [];   // innen vesszük ki a tömböt
 
   if (!entries.length) {
-    tbody.innerHTML = '<tr><td colspan="8" class="text-center text-muted">Még nincs bejegyzés.</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="9" class="text-center text-muted">Még nincs bejegyzés.</td></tr>';
     return;
   }
 
@@ -201,22 +238,36 @@ async function loadEntries() {
     });
 
     const tr = document.createElement('tr');
-    tr.innerHTML = `
+    const quoteText = entry.quote 
+      ? (entry.quote.quote_text.length > 30 
+          ? entry.quote.quote_text.substring(0, 30) + '...' 
+          : entry.quote.quote_text)
+      : '-';
+
+      tr.innerHTML = `
       <td style="font-weight: 500; color: #3b82f6;">${formattedDate}</td>
-      <td>${entry.mood ?? '-'}</td>
-      <td>${entry.weather ?? '-'}</td>
-      <td>${entry.activities ?? '-'}</td>
-      <td>${entry.sleep_quality ?? '-'}</td>
-      <td>${entry.score ?? '-'}</td>
-      <td class="text-truncate" style="max-width: 150px;">${entry.note ?? ''}</td>
-      <td>
-        <div class="btn-group" role="group">
-          <button class="btn btn-sm btn-danger" onclick="deleteEntry(${entry.entry_id})" title="Törlés">
-            <i class="bi bi-trash"></i>
-          </button>
-        </div>
-      </td>
-    `;
+        <td>${entry.mood ?? '-'}</td>
+        <td>${entry.weather ?? '-'}</td>
+        <td>${entry.activities ?? '-'}</td>
+        <td>${entry.sleep_quality ?? '-'}</td>
+        <td>${entry.score ?? '-'}</td>
+        <td style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+          ${entry.quote 
+            ? `<a href="#" class="text-primary" onclick="showQuoteModal('${entry.quote.quote_text.replace(/'/g, "\\'")}', '${entry.quote.author || 'Ismeretlen'}'); return false;">${quoteText}</a>`
+            : '-'
+          }
+        </td>
+        <td style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${entry.note ?? ''}</td>
+
+        <td>
+          <div class="btn-group" role="group">
+            <button class="btn btn-sm btn-danger" onclick="deleteEntry(${entry.entry_id})" title="Törlés">
+              <i class="bi bi-trash"></i>
+            </button>
+          </div>
+        </td>
+      `;
+
     tbody.appendChild(tr);
   });
 }
@@ -314,6 +365,16 @@ document.getElementById('entryForm').addEventListener('submit', async (e) => {
   await loadEntries();
   await loadQuote();
 }
+
+// Modal megjelenítő függvény
+window.showQuoteModal = function(text, author) {
+  document.getElementById('modalQuoteText').innerText = `"${text}"`;
+  document.getElementById('modalQuoteAuthor').innerText = author ? `– ${author}` : '';
+  
+  const modal = new bootstrap.Modal(document.getElementById('quoteModal'));
+  modal.show();
+};
+
 
 init();
 </script>
