@@ -1,0 +1,37 @@
+Azonosító: BUG-009
+
+Összefoglalás: Hibás bejelentkezés esetén az API 302 Redirect-et ad JSON hibaüzenet (401) helyett
+
+Súlyosság: Magas
+
+Prioritás: Magas
+
+Státusz: Nyitott
+
+Komponens: Frontend / Bejelentkezés (Login)
+
+Környezet: Helyi fejlesztői környezet (Localhost) / Böngésző
+
+Előfeltételek: A bejelentkező oldal (/login) megnyitása.
+
+Lépések:
+1. Fejlesztői eszközök (F12) Network fül megnyitása.
+2. Érvényes email cím, de hibás jelszó megadása.
+3. "Bejelentkezés" gomb megnyomása.
+4. A hálózati válasz vizsgálata.
+
+Elvárt működés: 
+A szerver 401 Unauthorized státusszal és JSON hibaüzenettel válaszol (pl. "Hibás adatok"), amit a Frontend fel tud dolgozni és meg tud jeleníteni.
+
+Tényleges működés: 
+A szerver 302 Found (Redirect) státusszal válaszol, visszairányítva a felhasználót a login oldalra (HTML). A Frontend így nem kapja meg a hibaüzenetet, és csak általános hibát jelez.
+
+Oka: 
+Hiányzik az 'Accept: application/json' fejléc a fetch hívásból, ezért a Laravel "böngészős" kérésnek érzékeli és átirányít.
+
+Javaslat: 
+A JavaScript login függvényében pótolni kell a hiányzó 'Accept' header sort.
+
+Felelős: Nincs hozzárendelve
+
+Létrehozva: 2025.12.07.
