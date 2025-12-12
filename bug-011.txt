@@ -6,7 +6,7 @@ Súlyosság: Közepes (Funkcióhiány)
 
 Prioritás: Közepes
 
-Státusz: Nyitott
+Státusz: Javítva
 
 Komponens: Frontend & Backend
 
