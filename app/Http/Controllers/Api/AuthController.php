@@ -10,32 +10,24 @@ use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
-    /**
-     * Regisztráció (új felhasználó létrehozása)
-     * 
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
+
     public function register(Request $request)
-    {
-        // Validáció
+{
+    try {
         $validated = $request->validate([
             'name' => 'required|string|max:100',
             'email' => 'required|string|email|max:150|unique:users',
             'password' => 'required|string|min:8|confirmed',
         ]);
 
-        // User létrehozása
         $user = User::create([
             'name' => $validated['name'],
             'email' => $validated['email'],
             'password' => Hash::make($validated['password']),
         ]);
 
-        // Token generálás
         $token = $user->createToken('auth-token')->plainTextToken;
 
-        // Válasz
         return response()->json([
             'message' => 'Sikeres regisztráció',
             'user' => [
@@ -45,36 +37,41 @@ class AuthController extends Controller
             ],
             'token' => $token,
         ], 201);
+    } catch (ValidationException $e) {
+        return response()->json([
+            'message' => 'Validációs hiba',
+            'errors' => $e->errors()
+        ], 422);
     }
+}
 
-    /**
-     * Bejelentkezés (token generálás)
-     * 
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
+
+
     public function login(Request $request)
     {
-        // Validáció
+ 
         $request->validate([
             'email' => 'required|email',
             'password' => 'required',
         ]);
 
-        // User keresése email alapján
+      
         $user = User::where('email', $request->email)->first();
 
-        // Ellenőrzés: létezik-e a user és helyes-e a jelszó
+   
         if (!$user || !Hash::check($request->password, $user->password)) {
-            throw ValidationException::withMessages([
-                'email' => ['A megadott adatok helytelenek.'],
-            ]);
-        }
+                return response()->json([
+                    'message' => 'A megadott adatok helytelenek.',
+                    'errors' => [
+                        'email' => ['A megadott email vagy jelszó érvénytelen.']
+                    ]
+                ], 422);
+            }
 
-        // Token generálás
+     
         $token = $user->createToken('auth-token')->plainTextToken;
 
-        // Válasz
+
         return response()->json([
             'message' => 'Sikeres bejelentkezés',
             'user' => [
@@ -86,15 +83,10 @@ class AuthController extends Controller
         ], 200);
     }
 
-    /**
-     * Kijelentkezés (token törlése)
-     * 
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
+
     public function logout(Request $request)
     {
-        // Aktuális token törlése
+
         $request->user()->currentAccessToken()->delete();
 
         return response()->json([
@@ -102,12 +94,7 @@ class AuthController extends Controller
         ], 200);
     }
 
-    /**
-     * Bejelentkezett user adatai
-     * 
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
+
     public function user(Request $request)
     {
         return response()->json([
