@@ -15,6 +15,7 @@ class Entry extends Model
     protected $fillable = [
     'user_id',
     'quote_id',
+    'entry_date',
     'mood',
     'weather',
     'sleep_quality',

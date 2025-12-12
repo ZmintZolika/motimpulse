@@ -230,7 +230,7 @@ async function loadEntries() {
   }
 
   entries.forEach(entry => {
-    const dateObj = new Date(entry.created_at);
+    const dateObj = new Date(entry.entry_date);
     const formattedDate = dateObj.toLocaleDateString('hu-HU', { 
       year: 'numeric', 
       month: 'short', 

@@ -36,6 +36,7 @@ class EntryController extends Controller
     {
         // Validáció - mood NULLABLE
         $validated = $request->validate([
+            'date'          => ['required', 'date'],
             'mood' => ['nullable', Rule::in(['Lehangolt', 'Kiegyensúlyozott', 'Vidám'])],
             'weather' => ['required', Rule::in(['Napos', 'Felhős', 'Esős', 'Szeles', 'Havas'])],
             'sleep_quality' => ['required', Rule::in(['Nagyon rossz', 'Rossz', 'Közepes', 'Jó', 'Kiváló'])],
@@ -66,6 +67,7 @@ class EntryController extends Controller
         $entry = Entry::create([
             'user_id' => $request->user()->user_id,
             'quote_id' => $quote ? $quote->quote_id : null,
+            'entry_date'    => $validated['date'],
             'mood' => $validated['mood'] ?? null,
             'weather' => $validated['weather'],
             'sleep_quality' => $validated['sleep_quality'],
@@ -129,6 +131,7 @@ class EntryController extends Controller
 
         // Validáció - PONTOS ENUM értékek
         $validated = $request->validate([
+            'date'          => ['required', 'date'],
             'mood' => ['nullable', Rule::in(['Lehangolt', 'Kiegyensúlyozott', 'Vidám'])],
             'weather' => ['sometimes', Rule::in(['Napos', 'Felhős', 'Esős', 'Szeles', 'Havas'])],
             'sleep_quality' => ['sometimes', Rule::in(['Nagyon rossz', 'Rossz', 'Közepes', 'Jó', 'Kiváló'])],
