@@ -6,7 +6,7 @@ Súlyosság: Magas
 
 Prioritás: Magas
 
-Státusz: Nyitott
+Státusz: Javítva
 
 Komponens: Frontend / Bejelentkezés (Login)
 
