@@ -1,0 +1,82 @@
+RENDSZER INTEGRÁCIÓS ÉS HIBAJAVÍTÁSI ZÁRÓJEGYZŐKÖNYV (HIVATALOS)
+===================================================================
+Dátum: 2025-12-13
+Projekt: MotImpulse Napló Alkalmazás
+Verzió: 1.0 (Release Candidate)
+Tesztelő: Szerencsés Viktor
+Dokumentált hibák száma: 12 db
+Általános Státusz: SIKERES (ACCEPTED)
+===================================================================
+
+I. BEVEZETÉS
+-------------------------------------------------------------------
+A projekt fejlesztési szakasza lezárult. Jelen dokumentum a teljes
+fejlesztési ciklus során feltárt 12 db hiba 
+és hiányosság sikeres javítását igazolja. A rendszer funkcionálisan
+teljes és stabil.
+
+II. RÉSZLETES HIBAJAVÍTÁSI NAPLÓ
+-------------------------------------------------------------------
+
+A) INFRASTRUKTÚRA ÉS UX (001-002)
+---------------------------------
+1. BUG-001: Hello Route Konfigurációs Hiba
+   - Probléma: 500-as hiba a főoldalon (hiányzó nézet).
+   - Javítás: Routing és View beállítása. [JAVÍTVA]
+
+2. BUG-002: Jelszóhossz Tájékoztatás Hiánya (UX)
+   - Probléma: Regisztrációnál nem volt kiírva a min. 8 karakter.
+   - Javítás: UI szövegezés pótolva. [JAVÍTVA]
+
+B) AUTHENTIKÁCIÓ ÉS TECHNIKAI HIBÁK (003, 005, 009)
+---------------------------------------------------
+3. BUG-003: Regisztráció Validációs Hiba (Redirect)
+   - Probléma: Hibás adatnál 302 Redirect jött JSON hibaüzenet helyett.
+   - Javítás: 'Accept: application/json' header pótolva. [JAVÍTVA]
+
+4. BUG-005: Entry Mentés Hiba (Redirect)
+   - Probléma: Bejegyzés mentésekor 302-es átirányítás történt.
+   - Javítás: JSON fejléc pótolva a mentés funkcióban. [JAVÍTVA]
+
+5. BUG-009: Login Validációs Hiba (Redirect)
+   - Probléma: Hibás belépésnél 302 Redirect jött JSON válasz helyett.
+   - Javítás: JSON fejléc pótolva a Login funkcióban. [JAVÍTVA]
+
+C) NAPLÓ (DASHBOARD) ADATSTRUKTÚRA HIBÁK (004, 006-008)
+-------------------------------------------------------
+6. BUG-004: Hibás Végpont Hívása
+   - Probléma: Frontend a '/api/day-entries' címet kereste.
+   - Javítás: Átírva '/api/entries'-re. [JAVÍTVA]
+
+7. BUG-006: Mood (Hangulat) Adattípus Hiba
+   - Probléma: Frontend számokat küldött, Backend Enum-ot várt.
+   - Javítás: HTML select értékek cseréje (Szám -> Enum). [JAVÍTVA]
+
+8. BUG-007: Mezőnév Eltérés (Activity)
+   - Probléma: Frontend 'activity'-t küldött, Backend 'activities'-t várt.
+   - Javítás: Mezőnevek szinkronizálása. [JAVÍTVA]
+
+9. BUG-008: Health Action (Egészség) Elírás
+   - Probléma: Enum érték eltérés ('táplálkozás' vs 'étkezés').
+   - Javítás: Az adatbázis és a frontend értékek egységesítése. [JAVÍTVA]
+
+D) FUNKCIONÁLIS ÉS LOGIKAI HIÁNYOSSÁGOK (010-012)
+-------------------------------------------------
+10. BUG-010: Idézet Mentési Hiba (Logika)
+    - Probléma: A generált idézet ID-ja (quote_id) nem mentődött el a naplóbejegyzés mellé.
+    - Javítás: Backend Controller logikájának javítása. [JAVÍTVA]
+
+11. BUG-011: Szerkesztés Funkció Hiánya
+    - Probléma: Hiányzott a korábbi bejegyzések módosításának (Edit) lehetősége.
+    - Javítás: Szerkesztő felület és PUT végpont implementálása. [JAVÍTVA]
+
+12. BUG-012: Visszamenőleges Naplózás Hiánya
+    - Probléma: Nem lehetett korábbi dátumra rögzíteni.
+    - Javítás: Dátumválasztó (Frontend) és 'entry_date' kezelés (Backend) pótolva. [JAVÍTVA]
+
+III. ÖSSZEGZÉS
+-------------------------------------------------------------------
+A tesztelési fázis lezárult. Minden technikai (Redirect, API), 
+adatstruktúrális (Enum, Naming) és funkcionális (Quote, Edit, Date)
+hiba elhárításra került. A rendszer Release Candidate állapotú.
+===================================================================
