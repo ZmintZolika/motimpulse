@@ -10,16 +10,12 @@ use Illuminate\Validation\Rule;
 
 class EntryController extends Controller
 {
-    /**
-     * Összes entry lekérése (bejelentkezett user)
-     * GET /api/entries
-     */
     public function index(Request $request)
     {
-        // Csak a bejelentkezett user entry-jei
         $entries = Entry::where('user_id', $request->user()->user_id)
             ->where('is_deleted', false)
             ->with('quote')
+            ->orderBy('entry_date', 'desc')
             ->orderBy('created_at', 'desc')
             ->get();
 
@@ -28,13 +24,8 @@ class EntryController extends Controller
         ], 200);
     }
 
-        /**
-     * Új entry létrehozása
-     * POST /api/entries
-     */
     public function store(Request $request)
     {
-        // Validáció - mood NULLABLE
         $validated = $request->validate([
             'date'          => ['required', 'date'],
             'mood' => ['nullable', Rule::in(['Lehangolt', 'Kiegyensúlyozott', 'Vidám'])],
@@ -46,24 +37,18 @@ class EntryController extends Controller
             'note' => ['nullable', 'string', 'max:1000'],
         ]);
 
-        // Quote generálás
         if (!empty($validated['mood'])) {
-            // Ha mood megadva ÉS NEM ÜRES → mood szerint random quote
             $quote = Quote::where('quote_category', $validated['mood'])
                 ->inRandomOrder()
                 ->first();
             
-            // Ha mood szerint nem talált, fallback bármilyen random idézetre
             if (!$quote) {
                 $quote = Quote::inRandomOrder()->first();
             }
         } else {
-            // Ha mood NINCS megadva vagy ÜRES → random quote az egész táblából
             $quote = Quote::inRandomOrder()->first();
         }
 
-
-        // Entry létrehozása
         $entry = Entry::create([
             'user_id' => $request->user()->user_id,
             'quote_id' => $quote ? $quote->quote_id : null,
@@ -78,22 +63,14 @@ class EntryController extends Controller
             'is_deleted' => false,
         ]);
 
-        $entry->load('quote');
-
         return response()->json([
             'message' => 'Entry sikeresen létrehozva',
-            'entry' => $entry,
+            'entry' => $entry->load('quote'), 
         ], 201);
     }
 
-
-    /**
-     * Egy entry lekérése
-     * GET /api/entries/{id}
-     */
     public function show(Request $request, $id)
     {
-        // Entry lekérése user_id alapján (biztonsági ellenőrzés)
         $entry = Entry::where('entry_id', $id)
             ->where('user_id', $request->user()->user_id)
             ->where('is_deleted', false)
@@ -111,13 +88,8 @@ class EntryController extends Controller
         ], 200);
     }
 
-    /**
-     * Entry módosítása
-     * PUT/PATCH /api/entries/{id}
-     */
     public function update(Request $request, $id)
     {
-        // Entry lekérése user_id alapján
         $entry = Entry::where('entry_id', $id)
             ->where('user_id', $request->user()->user_id)
             ->where('is_deleted', false)
@@ -129,55 +101,41 @@ class EntryController extends Controller
             ], 404);
         }
 
-        // Validáció - PONTOS ENUM értékek
         $validated = $request->validate([
-            'date'          => ['required', 'date'],
-            'mood' => ['nullable', Rule::in(['Lehangolt', 'Kiegyensúlyozott', 'Vidám'])],
-            'weather' => ['sometimes', Rule::in(['Napos', 'Felhős', 'Esős', 'Szeles', 'Havas'])],
-            'sleep_quality' => ['sometimes', Rule::in(['Nagyon rossz', 'Rossz', 'Közepes', 'Jó', 'Kiváló'])],
-            'activities' => ['sometimes', Rule::in(['Munka', 'Tanulás', 'Pihenés', 'Sport', 'Szórakozás', 'Egyéb'])],
-            'health_action' => ['sometimes', Rule::in(['Mozgás', 'Egészséges étkezés', 'Pihenés', 'Semmi'])],
-            'score' => ['sometimes', 'nullable', 'integer', 'min:1', 'max:10'],
-            'note' => ['nullable', 'string', 'max:1000'],
-        ]);
+            'entry_date'     => ['required', 'date'], 
+            'mood'           => ['nullable', Rule::in(['Lehangolt', 'Kiegyensúlyozott', 'Vidám'])],
+            'weather'        => ['sometimes', Rule::in(['Napos', 'Felhős', 'Esős', 'Szeles', 'Havas'])],
+            'sleep_quality'  => ['sometimes', Rule::in(['Nagyon rossz', 'Rossz', 'Közepes', 'Jó', 'Kiváló'])],
+            'activities'     => ['sometimes', Rule::in(['Munka', 'Tanulás', 'Pihenés', 'Sport', 'Szórakozás', 'Egyéb'])],
+            'health_action'  => ['sometimes', Rule::in(['Mozgás', 'Egészséges étkezés', 'Pihenés', 'Semmi'])],
+            'score'          => ['sometimes', 'nullable', 'integer', 'min:1', 'max:10'],
+            'note'           => ['nullable', 'string', 'max:1000'],
+        ]); 
 
-        // Ha mood változik, új quote generálás
-        if (array_key_exists('mood', $validated)) {
-            if ($validated['mood'] !== $entry->mood) {
-                if ($validated['mood'] !== null) {
-                    // Mood megadva → mood szerint
-                    $quote = Quote::where('quote_category', $validated['mood'])
-                        ->inRandomOrder()
-                        ->first();
-                } else {
-                    // Mood NULL → random az egészből
-                    $quote = Quote::inRandomOrder()->first();
-                }
-                
-                $validated['quote_id'] = $quote ? $quote->quote_id : null;
+        // Quote frissítése mood változásnál
+        if (array_key_exists('mood', $validated) && $validated['mood'] !== $entry->mood) {
+            if (!empty($validated['mood'])) {
+                $quote = Quote::where('quote_category', $validated['mood'])
+                    ->inRandomOrder()
+                    ->first();
+            } else {
+                $quote = Quote::inRandomOrder()->first();
             }
+            $entry->quote_id = $quote ? $quote->quote_id : null;
         }
 
-
-        // Entry frissítése
-        $entry->update($validated);
-
-        // Entry újratöltése quote-tal
-        $entry->load('quote');
+        $entry->update(array_filter($validated, function($value) {
+            return $value !== null;
+        }));
 
         return response()->json([
-            'message' => 'Entry sikeresen frissítve',
-            'entry' => $entry,
-        ], 200);
+            'message' => 'Entry frissítve',
+            'entry'   => $entry->load('quote'), 
+        ]);
     }
 
-    /**
-     * Entry törlése (soft delete)
-     * DELETE /api/entries/{id}
-     */
     public function destroy(Request $request, $id)
     {
-        // Entry lekérése user_id alapján
         $entry = Entry::where('entry_id', $id)
             ->where('user_id', $request->user()->user_id)
             ->where('is_deleted', false)
@@ -189,9 +147,8 @@ class EntryController extends Controller
             ], 404);
         }
 
-        // Soft delete (is_deleted flag)
         $entry->update(['is_deleted' => true]);
-        $entry->delete(); // Laravel soft delete (deleted_at)
+        $entry->delete(); 
 
         return response()->json([
             'message' => 'Entry sikeresen törölve',
